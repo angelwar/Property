@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">环纵物业管理</string>
+    <string name="main_name_0">首页</string>
+    <string name="main_name_1">小区管理</string>
+    <string name="main_name_2">房屋租售</string>
+    <string name="main_name_3">管理中心</string>
+
 </resources>

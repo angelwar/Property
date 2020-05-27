@@ -6,6 +6,23 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:dropDownListViewStyle">@style/xzfSpinnerStyle</item>
     </style>
 
+    <style name="xzfSpinnerStyle" parent="android:Widget.Spinner.DropDown">
+        <!-- 分隔线颜色 -->
+        <item name="android:divider">@color/gray</item>
+        <item name="android:dividerHeight">1dp</item>
+        <!-- item按下效果 -->
+        <item name="android:listSelector">@drawable/selector_bg_text</item>
+    </style>
+
+    <style name="tab_menu_item" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:drawablePadding">3dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+    </style>
 </resources>
