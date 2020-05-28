@@ -22,6 +22,10 @@ public interface APIService {
                                          @Query("password")String  password,
                                          @Query("device_type")String device_type);
 
+    /**
+     * 退出登录
+     * @return
+     */
     @POST("/api/admin/Public/logout")
     Call<String> logout();
 
@@ -32,4 +36,55 @@ public interface APIService {
      */
     @POST("/api/admin/Public/tongji")
     Observable<String> tongji(@Query("cids")String cids);
+
+    /**
+     * 修改密码
+     * @param uid
+     * @param password
+     * @return
+     */
+    @POST("/api/admin/Public/chword")
+    Call<DataBase<String>> modifyPassword(@Query("uid")int uid,@Query("password")String password);
+
+    /**
+     *
+     * @param c_id 小区id
+     * @param status 0正常 1拉黑
+     * @param mobile 手机号码
+     * @param ident  1认证 0未认证
+     * @param role   1业主 2家属 3租客
+     * @param page   分页页数
+     * @return
+     */
+    @POST("app.hzmtkj.com/api/admin/User/index")
+    Call<DataBase<String>> onUserList(@Query("c_id")int c_id,@Query("status")int status,
+                                      @Query("mobile")String mobile,@Query("ident")int ident,
+                                      @Query("role")int role,@Query("page")int page);
+
+    /**
+     *
+     * @param oid 用户id
+     * @return
+     */
+    @POST("app.hzmtkj.com/api/admin/User/del")
+    Call<DataBase<String>> deleteUser(@Query("oid")int oid);
+
+    /**
+     * 更新用户信息
+     * @param oid 住户id
+     * @param s 修改的字段： 拉黑 status   认证 ident
+     * @param v 修改值 同上 v=1 拉黑 0 取消拉黑 v=1通过认证 0取消认证
+     * @return
+     */
+    @POST("app.hzmtkj.com/api/admin/User/upstatus")
+    Call<DataBase<String>> updataStatus(@Query("oid")int oid,@Query("s")String s,
+                                        @Query("v")int v);
+
+    /**
+     * 访客记录
+     * @param s
+     * @return
+     */
+    @POST("app.hzmtkj.com/api/admin/User/vister")
+    Call<DataBase<String>> onVisiter(@Query("mobile")String s);
 }
