@@ -1,6 +1,9 @@
 package com.huanzong.property.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
@@ -9,10 +12,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.huanzong.property.R;
+import com.huanzong.property.activity.login.LoginActivity;
 import com.huanzong.property.fragment.AdministrationFragment;
 import com.huanzong.property.fragment.CenterFragment;
 import com.huanzong.property.fragment.FirstFragment;
 import com.huanzong.property.fragment.SaleFragment;
+import com.huanzong.property.http.HttpServer;
+import com.huanzong.property.util.SharedPreferencesUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+
+        //toLowerCase() C37874C7FD06B93DB8A5CEEF697CC084
+//        String a = "C37874C7FD06B93DB8A5CEEF697CC084";
+//        String b = a.toLowerCase();
+//        Log.e("tag",b);
 
         trans = getSupportFragmentManager().beginTransaction();
         myFragment1 = new FirstFragment();
@@ -64,5 +75,11 @@ public class MainActivity extends AppCompatActivity {
                 trans.commit();
             }
         });
+    }
+
+    public void onLogout(View view){
+        SharedPreferencesUtil.addToken(this,null);
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 }
