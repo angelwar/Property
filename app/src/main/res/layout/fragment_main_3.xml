@@ -7,27 +7,27 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="@mipmap/q_02">
-        <!--<ImageView
+        <ImageView
             android:id="@+id/bt_notify"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerInParent="true"
-            android:src="@mipmap/icon_rq"
+            android:src="@mipmap/logo_hz"
             android:scaleType="centerCrop"
             android:textColor="@color/colorPrimary"
             android:background="@drawable/shape_circle_blue"/>
         <TextView
             android:layout_below="@id/bt_notify"
-            android:id="@+id/tv_nikename"
+            android:id="@+id/tv_username"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="维修工"
+            android:text="环纵媒体科技"
             android:layout_marginTop="10dp"
             android:textColor="@color/white"
             android:textSize="20sp"/>
 
-        <TextView
+        <!--<TextView
             android:layout_below="@id/tv_nikename"
             android:id="@+id/tv_username"
             android:layout_centerInParent="true"
@@ -49,9 +49,10 @@
         android:background="@color/white"/>
         -->
     <TextView
+        android:id="@+id/modify_passeord"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:onClick="onPassword"
+        android:onClick="onClick"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="修改密码"

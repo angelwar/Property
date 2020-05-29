@@ -2,6 +2,11 @@ package com.huanzong.property.http;
 
 import com.huanzong.property.activity.login.LoginTokenData;
 import com.huanzong.property.database.DataBase;
+import com.huanzong.property.fragment.admin.User;
+import com.huanzong.property.fragment.admin.UserData;
+import com.huanzong.property.fragment.admin.UserDataBase;
+import com.huanzong.property.fragment.firstpage.TongJiDataBase;
+import com.huanzong.property.fragment.sale.SaleData;
 
 import retrofit2.Call;
 import retrofit2.http.POST;
@@ -35,7 +40,7 @@ public interface APIService {
      * @return
      */
     @POST("/api/admin/Public/tongji")
-    Observable<String> tongji(@Query("cids")String cids);
+    Call<DataBase<TongJiDataBase>> tongji(@Query("cids")String cids);
 
     /**
      * 修改密码
@@ -56,17 +61,17 @@ public interface APIService {
      * @param page   分页页数
      * @return
      */
-    @POST("app.hzmtkj.com/api/admin/User/index")
-    Call<DataBase<String>> onUserList(@Query("c_id")int c_id,@Query("status")int status,
-                                      @Query("mobile")String mobile,@Query("ident")int ident,
-                                      @Query("role")int role,@Query("page")int page);
+    @POST("/api/admin/User/index")
+    Call<DataBase<UserDataBase<UserData<User>>>> onUserList(@Query("c_id")int c_id, @Query("status")int status,
+                                                            @Query("mobile")String mobile, @Query("ident")int ident,
+                                                            @Query("role")int role, @Query("page")int page);
 
     /**
      *
      * @param oid 用户id
      * @return
      */
-    @POST("app.hzmtkj.com/api/admin/User/del")
+    @POST("/api/admin/User/del")
     Call<DataBase<String>> deleteUser(@Query("oid")int oid);
 
     /**
@@ -76,7 +81,7 @@ public interface APIService {
      * @param v 修改值 同上 v=1 拉黑 0 取消拉黑 v=1通过认证 0取消认证
      * @return
      */
-    @POST("app.hzmtkj.com/api/admin/User/upstatus")
+    @POST("/api/admin/User/upstatus")
     Call<DataBase<String>> updataStatus(@Query("oid")int oid,@Query("s")String s,
                                         @Query("v")int v);
 
@@ -85,6 +90,26 @@ public interface APIService {
      * @param s
      * @return
      */
-    @POST("app.hzmtkj.com/api/admin/User/vister")
+    @POST("/api/admin/User/vister")
     Call<DataBase<String>> onVisiter(@Query("mobile")String s);
+
+    /**
+     *
+     * @param c_id 物业下属小区id 格式 [22,32]
+     * @param status 租售状态 0 未通过审核  1通过审核 2已租或已售  3下架
+     * @param mobile 手机号码
+     * @param zs 租售类型 0租 1售
+     * @return
+     */
+    @POST("/api/admin/House/index")
+    Call<DataBase<UserDataBase<UserData<SaleData>>>> onGetHouse(@Query("c_id")int c_id,
+                                                                @Query("status")int status,
+                                                                @Query("mobile")String mobile,
+                                                                @Query("zs")int zs);
+
+    /**
+     * 删除租售信息
+     */
+    @POST("/api/admin/House/del")
+    Call<DataBase<String>> deteleHouse();
 }

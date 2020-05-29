@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.huanzong.property.R;
-import com.youth.xframe.utils.permission.XPermission;
 
 public class FirstFragment extends Fragment {
 

@@ -27,6 +27,18 @@ public class SharedPreferencesUtil {
         SharedPreferences shared = getShared(context,FILE_NAME_USER);
         return shared.getString("token","");
     }
+
+    //保存uid
+    public  static void addUid(Context context, int uid){
+        SharedPreferences sharedPreferences = getShared(context,FILE_NAME_USER);
+        sharedPreferences.edit().putInt("uid",uid).apply();
+    }
+
+    //查询token
+    public static int queryUid(Context context){
+        SharedPreferences shared = getShared(context,FILE_NAME_USER);
+        return shared.getInt("uid",-1);
+    }
     /**
      * 清除登录用户
      * @param context
