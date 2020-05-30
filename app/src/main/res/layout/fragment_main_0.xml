@@ -13,28 +13,29 @@
         android:layout_height="200dp"
         android:src="@mipmap/bg_title"/>
         <RelativeLayout
-            android:id="@+id/rl_all"
+            android:onClick="onClick"
+            android:id="@+id/rl_total"
             android:layout_gravity="center"
             android:layout_width="180dp"
             android:layout_height="200dp">
         <TextView
-            android:id="@+id/tv_all"
             android:layout_centerInParent="true"
+            android:id="@+id/tv_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="306"
             android:textSize="@dimen/dp_s_24"
             android:textColor="@color/white"
             android:layout_gravity="center"/>
-        <TextView
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/tv_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="app使用人数"
-            android:textSize="15dp"
-            android:textColor="@color/white"
-            android:layout_gravity="center"/>
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/tv_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="app使用人数"
+                android:textSize="15dp"
+                android:textColor="@color/white"
+                android:layout_gravity="center"/>
         </RelativeLayout>
     </FrameLayout>
     <LinearLayout
@@ -43,6 +44,8 @@
         android:background="@color/main_bg_gray"
         android:layout_height="88dp">
         <LinearLayout
+            android:onClick="onClick"
+            android:id="@+id/ll_no_user"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_width="0dp"
@@ -57,13 +60,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_blue"
-                android:text="用户未认证"/>
+                android:text="未认证用户"/>
         </LinearLayout>
         <TextView
             android:background="@color/white"
             android:layout_width="1dp"
             android:layout_height="match_parent"/>
         <LinearLayout
+            android:onClick="onClick"
+            android:id="@+id/ll_no_house"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_width="0dp"
@@ -72,13 +77,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/nojie"/>
+                android:src="@mipmap/icon_main_fangwu"/>
             <TextView
-                android:id="@+id/tv_wshfw"
+                android:id="@+id/tv_wrzfw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_blue"
-                android:text="未审核房屋"/>
+                android:text="未认证房屋"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -96,6 +101,7 @@
             android:layout_weight="1"
             android:orientation="horizontal">
             <com.huanzong.property.util.TextNumber
+                android:onClick="onClick"
                 android:id="@+id/tn_yezhu"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -106,6 +112,7 @@
 
             <com.huanzong.property.util.TextNumber
                 android:id="@+id/tn_zushou"
+                android:onClick="onClick"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -120,6 +127,7 @@
             android:layout_weight="1"
             android:orientation="horizontal">
             <com.huanzong.property.util.TextNumber
+                android:onClick="onClick"
                 android:id="@+id/tn_zuke"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -130,11 +138,12 @@
 
             <com.huanzong.property.util.TextNumber
                 android:id="@+id/tn_finish"
+                android:onClick="onClick"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                app:text="已完成订单"
+                app:text="已交易房屋"
                 android:background="@drawable/bg_no_get_money"/>
         </LinearLayout>
         <LinearLayout
@@ -144,7 +153,8 @@
             android:layout_weight="1"
             android:orientation="horizontal">
             <com.huanzong.property.util.TextNumber
-                android:id="@+id/tn_fangke"
+                android:onClick="onClick"
+                android:id="@+id/tn_fagnke"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -153,6 +163,7 @@
                 android:background="@drawable/bg_get_op"/>
 
             <com.huanzong.property.util.TextNumber
+                android:onClick="onClick"
                 android:id="@+id/tn_no_yuyue"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -168,6 +179,7 @@
             android:layout_weight="1"
             android:orientation="horizontal">
             <com.huanzong.property.util.TextNumber
+                android:onClick="onClick"
                 android:id="@+id/tn_lahei"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -177,6 +189,7 @@
                 android:background="@drawable/bg_get_comment"/>
 
             <com.huanzong.property.util.TextNumber
+                android:onClick="onClick"
                 android:id="@+id/tn_deal_yuyue"
                 android:layout_width="0dp"
                 android:layout_weight="1"

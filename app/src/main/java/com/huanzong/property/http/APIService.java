@@ -2,7 +2,11 @@ package com.huanzong.property.http;
 
 import com.huanzong.property.activity.login.LoginTokenData;
 import com.huanzong.property.database.DataBase;
-import com.huanzong.property.fragment.first.TongJiDataBase;
+import com.huanzong.property.fragment.admin.User;
+import com.huanzong.property.fragment.admin.UserData;
+import com.huanzong.property.fragment.admin.UserDataBase;
+import com.huanzong.property.fragment.firstpage.TongJiDataBase;
+import com.huanzong.property.fragment.sale.SaleData;
 
 import retrofit2.Call;
 import retrofit2.http.POST;
@@ -58,9 +62,9 @@ public interface APIService {
      * @return
      */
     @POST("/api/admin/User/index")
-    Call<DataBase<String>> onUserList(@Query("c_id")int c_id,@Query("status")int status,
-                                      @Query("mobile")String mobile,@Query("ident")int ident,
-                                      @Query("role")int role,@Query("page")int page);
+    Call<DataBase<UserDataBase<UserData<User>>>> onUserList(@Query("c_id")int c_id, @Query("status")int status,
+                                                            @Query("mobile")String mobile, @Query("ident")int ident,
+                                                            @Query("role")int role, @Query("page")int page);
 
     /**
      *
@@ -88,4 +92,24 @@ public interface APIService {
      */
     @POST("/api/admin/User/vister")
     Call<DataBase<String>> onVisiter(@Query("mobile")String s);
+
+    /**
+     *
+     * @param c_id 物业下属小区id 格式 [22,32]
+     * @param status 租售状态 0 未通过审核  1通过审核 2已租或已售  3下架
+     * @param mobile 手机号码
+     * @param zs 租售类型 0租 1售
+     * @return
+     */
+    @POST("/api/admin/House/index")
+    Call<DataBase<UserDataBase<UserData<SaleData>>>> onGetHouse(@Query("c_id")int c_id,
+                                                                @Query("status")int status,
+                                                                @Query("mobile")String mobile,
+                                                                @Query("zs")int zs);
+
+    /**
+     * 删除租售信息
+     */
+    @POST("/api/admin/House/del")
+    Call<DataBase<String>> deteleHouse();
 }
