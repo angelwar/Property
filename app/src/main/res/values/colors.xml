@@ -35,6 +35,7 @@
     <color name="colorLightBlue">#e7edf5</color>
     <color name="colorSearchBackground">#44dae0e4</color>
     <color name="yellow">#eefa08</color>
+    <color name="yellow_light">#f47a11</color>
 
     <color name="color_green">#03d282</color>
     <color name="color_blue">#2bacf7</color>

@@ -23,6 +23,9 @@ import com.huanzong.property.fragment.admin.UserDataBase;
 import com.huanzong.property.fragment.sale.FragmentNoYuyue;
 import com.huanzong.property.fragment.sale.FragmentOrderListAdapter;
 import com.huanzong.property.fragment.sale.FragmentZushou;
+import com.huanzong.property.fragment.sale.FragmentZushou1;
+import com.huanzong.property.fragment.sale.FragmentZushou2;
+import com.huanzong.property.fragment.sale.FragmentZushou3;
 import com.huanzong.property.fragment.sale.SaleData;
 import com.huanzong.property.http.HttpServer;
 import com.huanzong.property.util.PocketSwipeRefreshLayout;
@@ -55,11 +58,11 @@ public class SaleFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         fragments = new ArrayList();
         fragments.add(new FragmentZushou());
-        fragments.add(new FragmentNoYuyue());
-        fragments.add(new FragmentZushou());
-        fragments.add(new FragmentNoYuyue());
+        fragments.add(new FragmentZushou1());
+        fragments.add(new FragmentZushou2());
+        fragments.add(new FragmentZushou3());
 
-        FragmentStatePagerAdapter adapter = new FragmentOrderListAdapter(getActivity().getSupportFragmentManager(),fragments, new String[]{"租售统计", "已交易房屋", "未处理预约","已处理预约"});
+        FragmentOrderListAdapter adapter = new FragmentOrderListAdapter(getActivity().getSupportFragmentManager(),fragments, new String[]{"租房", "售房", "已交易房屋","未处理预约"});
         viewPager.setAdapter(adapter);
         tableLayout.setupWithViewPager(viewPager);
 
@@ -70,7 +73,7 @@ public class SaleFragment extends Fragment {
             }
         });
 
-        getData();
+//        getData();
     }
 
     private void getData() {
@@ -85,7 +88,7 @@ public class SaleFragment extends Fragment {
                         UserData list = response.body().getData().getUsers();
                         if (fragments.get(0) instanceof FragmentZushou){
                             FragmentZushou fragmentYezhu = (FragmentZushou) fragments.get(0);
-                            fragmentYezhu.setListData(list.getData());
+//                            fragmentYezhu.setListData(list.getData());
                         }
                     }
                 }

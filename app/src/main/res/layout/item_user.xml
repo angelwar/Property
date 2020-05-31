@@ -18,19 +18,18 @@
             android:paddingBottom="5dp"
             android:layout_marginLeft="10dp"
             android:id="@+id/tv_user_name"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="业主："
             android:textSize="@dimen/sp_s_20"
             android:textColor="@color/colorPrimary"/>
         <TextView
+            android:layout_marginLeft="@dimen/dp_s_10"
+            android:text="家属"
             android:id="@+id/tv_role"
             android:background="@drawable/bg_get_order"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -102,5 +101,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="状态：正常"/>
+    </LinearLayout>
+    <View
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/main_bg_gray"/>
+    <LinearLayout
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:id="@+id/bt_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_yellow_line"
+            android:text="删除"
+            android:textColor="@color/color_red"
+            android:textSize="@dimen/sp_s_16"/>
+        <TextView
+            android:layout_marginLeft="@dimen/dp_s_10"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:id="@+id/bt_lahei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_yellow_line"
+            android:text="拉黑"
+            android:textColor="@color/color_red"
+            android:textSize="@dimen/sp_s_16"/>
+
+        <TextView
+            android:layout_marginLeft="@dimen/dp_s_10"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:id="@+id/bt_ident"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_yellow_line"
+            android:text="认证"
+            android:textColor="@color/color_red"
+            android:textSize="@dimen/sp_s_16"/>
     </LinearLayout>
 </LinearLayout>

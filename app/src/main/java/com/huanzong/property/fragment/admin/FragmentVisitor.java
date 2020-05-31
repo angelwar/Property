@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.huanzong.property.R;
+import com.huanzong.property.adapter.VisitorAdapter;
 import com.huanzong.property.database.DataBase;
+import com.huanzong.property.database.Visitor;
 import com.huanzong.property.http.HttpServer;
 import com.huanzong.property.util.SpacesItemDecoration;
 
@@ -24,9 +26,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragmentUser1 extends Fragment {
+public class FragmentVisitor extends Fragment {
     RecyclerView rv;
-    TextView tv_null;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,30 +47,31 @@ public class FragmentUser1 extends Fragment {
 
     public void setListData(){
 
-        HttpServer.getAPIService().onUserList(0,0,"",0,0,0).enqueue(new Callback<DataBase<UserDataBase<UserData<User>>>>() {
+        HttpServer.getAPIService().onVisiter().enqueue(new Callback<DataBase<UserDataBase<UserData<Visitor>>>>() {
             @Override
-            public void onResponse(Call<DataBase<UserDataBase<UserData<User>>>> call, Response<DataBase<UserDataBase<UserData<User>>>> response) {
+            public void onResponse(Call<DataBase<UserDataBase<UserData<Visitor>>>> call, Response<DataBase<UserDataBase<UserData<Visitor>>>> response) {
                 Log.e("log","success "+response.body().getData());
                 if (response.body().getCode()==1) {
-                    List<User> list = response.body().getData().getUsers().getData();
+                    List<Visitor> list = response.body().getData().getUsers().getData();
                     if (list.size()==0){
                         showNullView();return;
                     }
-                    rv.setAdapter(new UserAdapter(getActivity(),rv, list, R.layout.item_user));
+                    rv.setAdapter(new VisitorAdapter(getActivity(),rv, list, R.layout.item_visitor));
                     hideNullView();
                 }
             }
 
             @Override
-            public void onFailure(Call<DataBase<UserDataBase<UserData<User>>>> call, Throwable t) {
+            public void onFailure(Call<DataBase<UserDataBase<UserData<Visitor>>>> call, Throwable t) {
                 Log.e("log","onFailure "+t.getMessage());
                 showNullView();
             }
         });
 
 
-    }
 
+    }
+    TextView tv_null;
     private void showNullView(){
         rv.setVisibility(View.GONE);
         tv_null.setVisibility(View.VISIBLE);

@@ -7,10 +7,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.huanzong.property.R;
+import com.huanzong.property.database.DataBase;
+import com.huanzong.property.http.HttpServer;
 import com.youth.xframe.adapter.XRecyclerViewAdapter;
 import com.youth.xframe.adapter.XViewHolder;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HouseAdapter extends XRecyclerViewAdapter<HouseData> {
 
@@ -28,4 +34,6 @@ public class HouseAdapter extends XRecyclerViewAdapter<HouseData> {
         TextView tv = holder.itemView.findViewById(R.id.tv_title);
         tv.setText(data.getC_name());
     }
+
+
 }

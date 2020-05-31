@@ -1,20 +1,32 @@
 package com.huanzong.property.fragment.admin;
 
+import android.content.Context;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.huanzong.property.R;
+import com.huanzong.property.database.DataBase;
+import com.huanzong.property.http.HttpServer;
 import com.youth.xframe.adapter.XRecyclerViewAdapter;
 import com.youth.xframe.adapter.XViewHolder;
+import com.youth.xframe.widget.XLoadingDialog;
 
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class UserAdapter extends XRecyclerViewAdapter<User> {
 
-    public UserAdapter(@NonNull RecyclerView mRecyclerView, List<User> dataLists, int layoutId) {
+    Context context;
+    public UserAdapter(Context context, @NonNull RecyclerView mRecyclerView, List<User> dataLists, int layoutId) {
         super(mRecyclerView, dataLists, layoutId);
+        this.context = context;
     }
 
     @Override
@@ -40,5 +52,106 @@ public class UserAdapter extends XRecyclerViewAdapter<User> {
             case 2:rolestr = "家属";break;
         }
         role.setText(rolestr);
+
+        TextView bt_lahei = holder.itemView.findViewById(R.id.bt_lahei);
+        TextView bt_ident = holder.itemView.findViewById(R.id.bt_ident);
+        TextView bt_delete = holder.itemView.findViewById(R.id.bt_delete);
+
+        bt_lahei.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SweetAlertDialog a = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("你确定拉黑该用户吗？")
+                        .setCancelText("取消拉黑")
+                        .setConfirmText("确定拉黑")
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                onUpdata(data.getId(),"status",0);
+                                sweetAlertDialog.dismiss();
+                            }
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                onUpdata(data.getId(),"status",1);
+                                sDialog.dismiss();
+                            }
+                        });
+                        a.show();
+                        a.setCanceledOnTouchOutside(true);
+            }
+        });
+        bt_ident.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SweetAlertDialog c = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("你确定认证该用户吗？")
+                        .setCancelText("取消认证")
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                onUpdata(data.getId(),"ident",0);
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        })
+                        .setConfirmText("确定认证")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                onUpdata(data.getId(),"ident",1);
+                                sDialog.dismissWithAnimation();
+                            }
+                        });
+                        c.show();
+                        c.setCanceledOnTouchOutside(true);
+            }
+        });
+        bt_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SweetAlertDialog b = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("你确定删除该用户吗？")
+                        .setCancelText("取消")
+                        .setConfirmText("确定")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                onDeleteUser(data.getId());
+                                sDialog.dismissWithAnimation();
+                            }
+                        });
+                        b.show();
+                        b.setCanceledOnTouchOutside(true);
+            }
+        });
+    }
+
+    private void onUpdata(int oid,String status,int v){
+        HttpServer.getAPIService().upDataUserStatus(oid,status,v).enqueue(new Callback<DataBase<String>>() {
+            @Override
+            public void onResponse(Call<DataBase<String>> call, Response<DataBase<String>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<DataBase<String>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void onDeleteUser(int oid){
+        HttpServer.getAPIService().deleteUser(oid).enqueue(new Callback<DataBase<String>>() {
+            @Override
+            public void onResponse(Call<DataBase<String>> call, Response<DataBase<String>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<DataBase<String>> call, Throwable t) {
+
+            }
+        });
     }
 }

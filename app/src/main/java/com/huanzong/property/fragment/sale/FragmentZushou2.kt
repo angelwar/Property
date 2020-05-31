@@ -15,6 +15,7 @@ import com.huanzong.property.fragment.admin.UserAdapter
 import com.huanzong.property.fragment.admin.UserData
 import com.huanzong.property.fragment.admin.UserDataBase
 import com.huanzong.property.http.HttpServer
+import com.huanzong.property.util.SharedPreferencesUtil
 import com.huanzong.property.util.SpacesItemDecoration
 import kotlinx.android.synthetic.main.fragment_sale_list.*
 import retrofit2.Call
@@ -22,7 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class FragmentZushou : Fragment(){
+class FragmentZushou2 : Fragment(){
 
     var rv : RecyclerView? =null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,7 +37,7 @@ class FragmentZushou : Fragment(){
     }
 
     fun setListData(){
-        HttpServer.getAPIService().onGetHouse(0, 0, "", 0).enqueue(object : Callback<DataBase<UserDataBase<UserData<SaleData>>>> {
+        HttpServer.getAPIService().onGetHouse(SharedPreferencesUtil.queryCid(activity), 2, "", 0).enqueue(object : Callback<DataBase<UserDataBase<UserData<SaleData>>>> {
 
             override fun onResponse(call: Call<DataBase<UserDataBase<UserData<SaleData>>>>, response: Response<DataBase<UserDataBase<UserData<SaleData>>>>) {
 
@@ -44,21 +45,19 @@ class FragmentZushou : Fragment(){
 
                     if (response.body() != null && response.body()!!.code == 1) {
                         val list = response.body()!!.data.users
-                        if (list.data.size==0){
-                            showNullView()
-                        return
-                        }
-                       rv?.adapter = rv?.let { SaleHouseAdapter(activity, it,list.data,R.layout.item_house) }
+                        if (list.data.size==0){showNullView()
+                        return}
+                        rv?.adapter = rv?.let { SaleHouseAdapter(activity, it,list.data,R.layout.item_house) }
                         hideNullView()
                     }else{
                         showNullView()
-                        return
                     }
 
                 }
             }
 
             override fun onFailure(call: Call<DataBase<UserDataBase<UserData<SaleData>>>>, t: Throwable) {
+
                 tv_null.visibility = View.VISIBLE
             }
         })
@@ -68,7 +67,6 @@ class FragmentZushou : Fragment(){
         rv?.visibility = View.GONE
         tv_null.visibility = View.VISIBLE
     }
-
     fun hideNullView(){
         rv?.visibility = View.VISIBLE
         tv_null.visibility = View.GONE

@@ -34,11 +34,24 @@ public class SharedPreferencesUtil {
         sharedPreferences.edit().putInt("uid",uid).apply();
     }
 
-    //查询token
+    //查询uid
     public static int queryUid(Context context){
         SharedPreferences shared = getShared(context,FILE_NAME_USER);
         return shared.getInt("uid",-1);
     }
+    //保存cid
+    public  static void addCid(Context context, int uid){
+        SharedPreferences sharedPreferences = getShared(context,FILE_NAME_USER);
+        sharedPreferences.edit().putInt("cid",uid).apply();
+    }
+
+    //查询cid
+    public static int queryCid(Context context){
+        SharedPreferences shared = getShared(context,FILE_NAME_USER);
+        return shared.getInt("cid",-1);
+    }
+
+
     /**
      * 清除登录用户
      * @param context

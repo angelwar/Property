@@ -12,12 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.huanzong.property.R;
 import com.huanzong.property.database.DataBase;
 import com.huanzong.property.fragment.admin.FragmentUser1;
+import com.huanzong.property.fragment.admin.FragmentVisitor;
 import com.huanzong.property.fragment.admin.FragmentYezhu;
 import com.huanzong.property.fragment.admin.TitleAdapter;
 import com.huanzong.property.fragment.admin.User;
@@ -28,6 +30,7 @@ import com.huanzong.property.fragment.sale.FragmentOrderListAdapter;
 import com.huanzong.property.fragment.sale.FragmentZushou;
 import com.huanzong.property.http.HttpServer;
 import com.huanzong.property.util.PocketSwipeRefreshLayout;
+import com.huanzong.property.util.SharedPreferencesUtil;
 import com.youth.xframe.adapter.XRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -52,6 +55,13 @@ public class AdministrationFragment extends Fragment {
         viewPager = content.findViewById(R.id.order_viewpager);
         tableLayout = content.findViewById(R.id.order_tab);
         swipeRefreshLayout = content.findViewById(R.id.sw_user);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData();
+            }
+        });
     return content;
     }
 
@@ -61,7 +71,7 @@ public class AdministrationFragment extends Fragment {
         fragments = new ArrayList();
         fragments.add(new FragmentUser1());
         fragments.add(new FragmentUser1());
-        fragments.add(new FragmentUser1());
+        fragments.add(new FragmentVisitor());
         fragments.add(new FragmentUser1());
 
         FragmentOrderListAdapter adapter = new FragmentOrderListAdapter(getActivity().getSupportFragmentManager(),fragments, new String[]{"业主", "租客", "访客","拉黑"});
@@ -89,7 +99,7 @@ public class AdministrationFragment extends Fragment {
     }
 
     private void getData() {
-        HttpServer.getAPIService().onUserList(0,0,"",0,0,0).enqueue(new Callback<DataBase<UserDataBase<UserData<User>>>>() {
+        HttpServer.getAPIService().onUserList(SharedPreferencesUtil.queryCid(getActivity()),0,"",0,0,0).enqueue(new Callback<DataBase<UserDataBase<UserData<User>>>>() {
             @Override
             public void onResponse(Call<DataBase<UserDataBase<UserData<User>>>> call, Response<DataBase<UserDataBase<UserData<User>>>> response) {
                 swipeRefreshLayout.setRefreshing(false);

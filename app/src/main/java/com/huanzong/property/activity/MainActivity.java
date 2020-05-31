@@ -22,6 +22,8 @@ import com.huanzong.property.http.HttpServer;
 import com.huanzong.property.util.SharedPreferencesUtil;
 import com.youth.xframe.widget.XToast;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class MainActivity extends AppCompatActivity {
 
     FrameLayout fragment_rg;
@@ -80,44 +82,65 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLogout(View view){
-        SharedPreferencesUtil.addToken(this,null);
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
+        new SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE).setTitleText("确定退出登录？")
+                .setCancelText("取消")
+                .setConfirmText("确定")
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    SharedPreferencesUtil.addToken(MainActivity.this,null);
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                }).show();
+
     }
 
     public void onClick(View v){
-        trans = getSupportFragmentManager().beginTransaction();
+
         switch (v.getId()){
             case R.id.rl_total:
                 break;
-            case R.id.ll_no_house:
+            case R.id.ll_no_house:toSaleFragment();
                 break;
-            case R.id.ll_no_user:
+            case R.id.ll_no_user:toAdministrationFragment();
                 break;
-            case R.id.tn_yezhu:trans.replace(R.id.fragment_rg,myFragment2);
+            case R.id.tn_yezhu:toAdministrationFragment();
                 break;
-            case R.id.tn_zuke:trans.replace(R.id.fragment_rg,myFragment2);
+            case R.id.tn_zuke:toAdministrationFragment();
                 break;
-            case R.id.tn_fagnke:trans.replace(R.id.fragment_rg,myFragment2);
+            case R.id.tn_fagnke:toAdministrationFragment();
                 break;
-            case R.id.tn_lahei:trans.replace(R.id.fragment_rg,myFragment2);
+            case R.id.tn_lahei:toAdministrationFragment();
                 break;
-            case R.id.tn_zushou:
+            case R.id.tn_zushou:toSaleFragment();
                 break;
-            case R.id.tn_finish:
+            case R.id.tn_finish:toSaleFragment();
                 break;
-            case R.id.tn_no_yuyue:
+            case R.id.tn_no_yuyue:toSaleFragment();
                 break;
-            case R.id.tn_deal_yuyue:
+            case R.id.tn_deal_yuyue:toSaleFragment();
                 break;
             case R.id.modify_passeord:
                 modifyPassword();
                 break;
         }
-        trans.commit();
+
     }
 
     private void modifyPassword() {
+
         startActivity(new Intent(this,PasswordActivity.class));
+    }
+
+    private void toSaleFragment(){
+        rb_group.check(R.id.rb_notice);
+        trans = getSupportFragmentManager().beginTransaction();
+        trans.replace(R.id.fragment_rg,myFragment3);
+        trans.commit();
+    }
+
+    private void toAdministrationFragment(){
+        rb_group.check(R.id.rb_order);
+        trans = getSupportFragmentManager().beginTransaction();
+        trans.replace(R.id.fragment_rg,myFragment2);
+        trans.commit();
     }
 }

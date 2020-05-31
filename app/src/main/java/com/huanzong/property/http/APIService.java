@@ -2,6 +2,7 @@ package com.huanzong.property.http;
 
 import com.huanzong.property.activity.login.LoginTokenData;
 import com.huanzong.property.database.DataBase;
+import com.huanzong.property.database.Visitor;
 import com.huanzong.property.fragment.admin.User;
 import com.huanzong.property.fragment.admin.UserData;
 import com.huanzong.property.fragment.admin.UserDataBase;
@@ -11,7 +12,6 @@ import com.huanzong.property.fragment.sale.SaleData;
 import retrofit2.Call;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-import rx.Observable;
 
 public interface APIService {
 
@@ -91,10 +91,16 @@ public interface APIService {
      * @return
      */
     @POST("/api/admin/User/vister")
-    Call<DataBase<String>> onVisiter(@Query("mobile")String s);
+    Call<DataBase<UserDataBase<UserData<Visitor>>>> onVisiter(@Query("mobile")String s);
+    /**
+     * 访客记录
+     * @return
+     */
+    @POST("/api/admin/User/vister")
+    Call<DataBase<UserDataBase<UserData<Visitor>>>> onVisiter();
 
     /**
-     *
+     * 租售房屋管理
      * @param c_id 物业下属小区id 格式 [22,32]
      * @param status 租售状态 0 未通过审核  1通过审核 2已租或已售  3下架
      * @param mobile 手机号码
@@ -111,5 +117,34 @@ public interface APIService {
      * 删除租售信息
      */
     @POST("/api/admin/House/del")
-    Call<DataBase<String>> deteleHouse();
+    Call<DataBase<String>> deteleHouse(@Query("id")int id);
+
+
+    /**
+     * 更改用户信息
+     * @param oid
+     * @param status 修改的字段： 拉黑 status   认证 ident
+     * @param v 修改值 同上 v=1 拉黑 0 取消拉黑 v=1通过认证 0取消认证
+     * @return
+     */
+    @POST("/api/admin/User/upstatus")
+    Call<DataBase<String>> upDataUserStatus(@Query("oid")int oid,@Query("s")String status,@Query("v")int v);
+
+    /**
+     * 更改租售信息
+     * @param id 房屋ID
+     * @param status 修改的字段： 拉黑 status   认证 ident
+     * @param v 修改值 同上 v=1 拉黑 0 取消拉黑 v=1通过认证 0取消认证
+     * @return
+     */
+    @POST("/api/admin/House/upstatus")
+    Call<DataBase<String>> upDataHouseStatus(@Query("id")int id,@Query("s")String status,@Query("v")int v);
+
+    /**
+     * 未处理预约记录
+     * @param cids
+     * @return
+     */
+    @POST("/api/admin/House/yuyue")
+    Call<DataBase<UserDataBase<UserData<SaleData>>>> yuyue(@Query("cids")int cids);
 }

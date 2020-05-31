@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,6 +45,10 @@ public class LoginActivity extends XActivity {
                             break;
                         case 1:
                             SharedPreferencesUtil.addToken(LoginActivity.this,response.body().getData().getToken());
+                            SharedPreferencesUtil.addUid(LoginActivity.this,response.body().getData().getData().getUid());
+                            if (response.body().getData().getData().getXiaoqu()!=null&&response.body().getData().getData().getXiaoqu().size()>0){
+                                SharedPreferencesUtil.addCid(LoginActivity.this,response.body().getData().getData().getXiaoqu().get(0).getC_id());
+                            }
                             toMainActivity();
                             break;
                     }
