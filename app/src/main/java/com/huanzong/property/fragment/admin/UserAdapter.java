@@ -1,7 +1,10 @@
 package com.huanzong.property.fragment.admin;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,30 +60,27 @@ public class UserAdapter extends XRecyclerViewAdapter<User> {
         TextView bt_ident = holder.itemView.findViewById(R.id.bt_ident);
         TextView bt_delete = holder.itemView.findViewById(R.id.bt_delete);
 
-        bt_lahei.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SweetAlertDialog a = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("你确定拉黑该用户吗？")
-                        .setCancelText("取消拉黑")
-                        .setConfirmText("确定拉黑")
-                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                onUpdata(data.getId(),"status",0);
-                                sweetAlertDialog.dismiss();
-                            }
-                        })
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                onUpdata(data.getId(),"status",1);
-                                sDialog.dismiss();
-                            }
-                        });
-                        a.show();
-                        a.setCanceledOnTouchOutside(true);
-            }
+        bt_lahei.setOnClickListener(view -> {
+            SweetAlertDialog a = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("你确定拉黑该用户吗？")
+                    .setCancelText("取消拉黑")
+                    .setConfirmText("确定拉黑")
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            onUpdata(data.getId(),"status",0);
+                            sweetAlertDialog.dismiss();
+                        }
+                    })
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            onUpdata(data.getId(),"status",1);
+                            sDialog.dismiss();
+                        }
+                    });
+                    a.show();
+                    a.setCanceledOnTouchOutside(true);
         });
         bt_ident.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +123,17 @@ public class UserAdapter extends XRecyclerViewAdapter<User> {
                         });
                         b.show();
                         b.setCanceledOnTouchOutside(true);
+            }
+        });
+
+        TextView tv_phone = holder.itemView.findViewById(R.id.tv_phone);
+        tv_phone.setText(data.getMobile());
+        ImageView iv_call = holder.itemView.findViewById(R.id.iv_call);
+        iv_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent dialIntent =  new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" +data.getMobile()));//跳转到拨号界面，同时传递电话号码
+                context.startActivity(dialIntent);
             }
         });
     }

@@ -7,7 +7,7 @@ public class Visitor {
     private String mobile;
     private int status;
     private int ty;
-    private String create_time;
+    private long create_time;
     private int cid;
     private String name;
     private int role;
@@ -54,11 +54,11 @@ public class Visitor {
         this.ty = ty;
     }
 
-    public String getCreate_time() {
+    public long getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(String create_time) {
+    public void setCreate_time(long create_time) {
         this.create_time = create_time;
     }
 

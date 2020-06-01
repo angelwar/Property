@@ -19,6 +19,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.huanzong.property.R;
 import com.huanzong.property.database.DataBase;
 import com.huanzong.property.fragment.admin.FragmentUser1;
+import com.huanzong.property.fragment.admin.FragmentUser2;
+import com.huanzong.property.fragment.admin.FragmentUserBlack;
 import com.huanzong.property.fragment.admin.FragmentVisitor;
 import com.huanzong.property.fragment.admin.FragmentYezhu;
 import com.huanzong.property.fragment.admin.TitleAdapter;
@@ -70,9 +72,9 @@ public class AdministrationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         fragments = new ArrayList();
         fragments.add(new FragmentUser1());
-        fragments.add(new FragmentUser1());
+        fragments.add(new FragmentUser2());
         fragments.add(new FragmentVisitor());
-        fragments.add(new FragmentUser1());
+        fragments.add(new FragmentUserBlack());
 
         FragmentOrderListAdapter adapter = new FragmentOrderListAdapter(getActivity().getSupportFragmentManager(),fragments, new String[]{"业主", "租客", "访客","拉黑"});
         viewPager.setAdapter(adapter);

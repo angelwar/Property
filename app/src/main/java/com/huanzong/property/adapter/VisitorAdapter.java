@@ -14,6 +14,7 @@ import com.huanzong.property.R;
 import com.huanzong.property.database.DataBase;
 import com.huanzong.property.database.Visitor;
 import com.huanzong.property.http.HttpServer;
+import com.huanzong.property.util.TimeUtil;
 import com.youth.xframe.adapter.XRecyclerViewAdapter;
 import com.youth.xframe.adapter.XViewHolder;
 import com.youth.xframe.widget.XLoadingDialog;
@@ -48,7 +49,8 @@ public class VisitorAdapter extends XRecyclerViewAdapter<Visitor> {
             Intent dialIntent =  new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" +data.getMobile()));//跳转到拨号界面，同时传递电话号码
             context.startActivity(dialIntent);
         });
-
+        TextView time = holder.itemView.findViewById(R.id.tv_time);
+        time.setText("时间："+ TimeUtil.timestampToDate(data.getCreate_time()));
 
     }
 

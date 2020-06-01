@@ -19,6 +19,7 @@ import com.huanzong.property.R;
 import com.huanzong.property.activity.MainActivity;
 import com.huanzong.property.database.DataBase;
 import com.huanzong.property.http.HttpServer;
+import com.huanzong.property.receiver.service.TagAliasOperatorHelper;
 import com.huanzong.property.util.SharedPreferencesUtil;
 import com.youth.xframe.base.XActivity;
 import com.youth.xframe.widget.XLoadingDialog;
@@ -27,6 +28,8 @@ import com.youth.xframe.widget.XToast;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.huanzong.property.receiver.service.TagAliasOperatorHelper.ACTION_SET;
 
 public class LoginActivity extends XActivity {
 
@@ -49,6 +52,7 @@ public class LoginActivity extends XActivity {
                             if (response.body().getData().getData().getXiaoqu()!=null&&response.body().getData().getData().getXiaoqu().size()>0){
                                 SharedPreferencesUtil.addCid(LoginActivity.this,response.body().getData().getData().getXiaoqu().get(0).getC_id());
                             }
+                            setAlias(username);
                             toMainActivity();
                             break;
                     }
@@ -104,4 +108,15 @@ public class LoginActivity extends XActivity {
     public void initView() {
 
     }
+
+    private void setAlias(String alias){
+        //给极光推送设置别名
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.action = ACTION_SET ;//设置别名
+        tagAliasBean.alias = alias; //设置别名为登录账户
+        tagAliasBean.isAliasAction = true;
+        TagAliasOperatorHelper.getInstance().handleAction(this,
+                1, tagAliasBean);
+    }
+
 }

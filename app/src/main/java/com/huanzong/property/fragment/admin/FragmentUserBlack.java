@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragmentUser1 extends Fragment {
+public class FragmentUserBlack extends Fragment {
     RecyclerView rv;
     TextView tv_null;
     @Nullable
@@ -46,7 +46,8 @@ public class FragmentUser1 extends Fragment {
 
     public void setListData(){
 
-        HttpServer.getAPIService().onUserList(0,0,"",0,1,0).enqueue(new Callback<DataBase<UserDataBase<UserData<User>>>>() {
+        //status 0正常 1拉黑
+        HttpServer.getAPIService().onUserList(0,1,"",0,0,0).enqueue(new Callback<DataBase<UserDataBase<UserData<User>>>>() {
             @Override
             public void onResponse(Call<DataBase<UserDataBase<UserData<User>>>> call, Response<DataBase<UserDataBase<UserData<User>>>> response) {
                 Log.e("log","success "+response.body().getData());

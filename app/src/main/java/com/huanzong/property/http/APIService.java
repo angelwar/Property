@@ -82,8 +82,8 @@ public interface APIService {
      * @return
      */
     @POST("/api/admin/User/upstatus")
-    Call<DataBase<String>> updataStatus(@Query("oid")int oid,@Query("s")String s,
-                                        @Query("v")int v);
+    Call<DataBase<String>> updataStatus(@Query("oid")int oid,@Query("ss")String s,
+                                        @Query("vv")int v);
 
     /**
      * 访客记录
@@ -128,7 +128,9 @@ public interface APIService {
      * @return
      */
     @POST("/api/admin/User/upstatus")
-    Call<DataBase<String>> upDataUserStatus(@Query("oid")int oid,@Query("s")String status,@Query("v")int v);
+    Call<DataBase<String>> upDataUserStatus(@Query("oid")int oid,
+                                            @Query("ss")String status,
+                                            @Query("vv")int v);
 
     /**
      * 更改租售信息
@@ -142,6 +144,7 @@ public interface APIService {
 
     /**
      * 未处理预约记录
+     * 已处理 vv = 1
      * @param cids
      * @return
      */
