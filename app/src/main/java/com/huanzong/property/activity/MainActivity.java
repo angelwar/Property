@@ -47,8 +47,11 @@ public class MainActivity extends AppCompatActivity {
 
         trans = getSupportFragmentManager().beginTransaction();
         myFragment1 = new FirstPageFragment();
+
         myFragment2 = new AdministrationFragment();
+
         myFragment3 = new SaleFragment();
+
         myFragment4 = new CenterFragment();
         trans.replace(R.id.fragment_rg,myFragment1);
         trans.commit();
@@ -98,48 +101,58 @@ public class MainActivity extends AppCompatActivity {
         switch (v.getId()){
             case R.id.rl_total:
                 break;
-            case R.id.ll_no_house:toSaleFragment();
+            case R.id.ll_no_house:toSaleFragment(0);
                 break;
-            case R.id.ll_no_user:toAdministrationFragment();
+            case R.id.ll_no_user:toAdministrationFragment(0);
                 break;
-            case R.id.tn_yezhu:toAdministrationFragment();
+            case R.id.tn_yezhu:toAdministrationFragment(1);
                 break;
-            case R.id.tn_zuke:toAdministrationFragment();
+            case R.id.tn_zuke:toAdministrationFragment(2);
                 break;
-            case R.id.tn_fagnke:toAdministrationFragment();
+            case R.id.tn_fagnke:toAdministrationFragment(3);
                 break;
-            case R.id.tn_lahei:toAdministrationFragment();
+            case R.id.tn_lahei:toAdministrationFragment(4);
                 break;
-            case R.id.tn_zushou:toSaleFragment();
+            case R.id.tn_zushou:toSaleFragment(1);
                 break;
-            case R.id.tn_finish:toSaleFragment();
+            case R.id.tn_finish:toSaleFragment(3);
                 break;
-            case R.id.tn_no_yuyue:toSaleFragment();
+            case R.id.tn_no_yuyue:toSaleFragment(4);
                 break;
-            case R.id.tn_deal_yuyue:toSaleFragment();
+            case R.id.tn_deal_yuyue:toSaleFragment(4);
                 break;
             case R.id.modify_passeord:
                 modifyPassword();
+                break;
+
+            case R.id.tv_title_right:
+//                startActivity(new Intent(this,PasswordActivity.class));
+                XToast.info("发布房源");
                 break;
         }
 
     }
 
     private void modifyPassword() {
-
         startActivity(new Intent(this,PasswordActivity.class));
     }
 
-    private void toSaleFragment(){
+    private void toSaleFragment(int index){
         rb_group.check(R.id.rb_notice);
         trans = getSupportFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putInt("index", index);
+        myFragment3.setArguments(bundle);
         trans.replace(R.id.fragment_rg,myFragment3);
         trans.commit();
     }
 
-    private void toAdministrationFragment(){
+    private void toAdministrationFragment(int index){
         rb_group.check(R.id.rb_order);
         trans = getSupportFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putInt("index", index);
+        myFragment2.setArguments(bundle);
         trans.replace(R.id.fragment_rg,myFragment2);
         trans.commit();
     }

@@ -1,6 +1,7 @@
 package com.huanzong.property.fragment.admin;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,12 @@ import com.huanzong.property.adapter.VisitorAdapter;
 import com.huanzong.property.database.DataBase;
 import com.huanzong.property.database.Visitor;
 import com.huanzong.property.http.HttpServer;
+import com.huanzong.property.util.PocketSwipeRefreshLayout;
 import com.huanzong.property.util.SpacesItemDecoration;
+import com.youth.xframe.adapter.XRecyclerViewAdapter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,8 +38,17 @@ public class FragmentVisitor extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sale_list, container, false);
         initView(view);
+        sw_sale = view.findViewById(R.id.sw_sale);
+        sw_sale.setOnRefreshListener(() ->{
+                    page = 1;
+                    //清空数据再次刷新
+                    userAdapter.setDataLists(null);
+                    setListData();
+                }
+        );
         return view;
     }
+    PocketSwipeRefreshLayout sw_sale ;
 
     private void initView(View view) {
         rv = view.findViewById(R.id.rv_list);
@@ -43,28 +57,59 @@ public class FragmentVisitor extends Fragment {
 
         tv_null = view.findViewById(R.id.tv_null);
         setListData();
+        userList = new ArrayList<>();
+        userAdapter = new VisitorAdapter(getActivity(),rv,userList,R.layout.item_visitor);
+
+        userAdapter.isLoadMore(true);//开启加载更多功能,默认关闭
+        userAdapter.setOnLoadMoreListener(new XRecyclerViewAdapter.OnLoadMoreListener() {
+            @Override
+            public void onRetry() {//加载失败，重新加载回调方法
+                setListData();
+            }
+            @Override
+            public void onLoadMore() {//加载更多回调方法
+                if (page==lastpage){
+                    //因直接userAdapter.showLoadComplete()，会显示报错，延时2秒再显示RecyclerView is computing a layout or scrolling
+                    new Handler().postDelayed(() -> {
+                        userAdapter.showLoadComplete();//没有更多数据了
+                    }, 2000);
+                }else {
+                    setListData();
+                }
+            }
+        });
+
+        rv.setAdapter(userAdapter);
     }
-
+    int page = 1;
+    int lastpage = 0;
+    private VisitorAdapter userAdapter;
+    private List<Visitor> userList;
     public void setListData(){
-
-        HttpServer.getAPIService().onVisiter().enqueue(new Callback<DataBase<UserDataBase<UserData<Visitor>>>>() {
+        HashMap<String,Integer> hashMap = new HashMap<>();
+        hashMap.put("page",page);
+        HttpServer.getAPIService().onVisiter(hashMap).enqueue(new Callback<DataBase<UserDataBase<UserData<Visitor>>>>() {
             @Override
             public void onResponse(Call<DataBase<UserDataBase<UserData<Visitor>>>> call, Response<DataBase<UserDataBase<UserData<Visitor>>>> response) {
-                Log.e("log","success "+response.body().getData());
+                sw_sale.setRefreshing(false);
                 if (response.body().getCode()==1) {
                     List<Visitor> list = response.body().getData().getUsers().getData();
                     if (list.size()==0){
                         showNullView();return;
                     }
-                    rv.setAdapter(new VisitorAdapter(getActivity(),rv, list, R.layout.item_visitor));
+                    lastpage = response.body().getData().getUsers().getLast_page();
+                    if (page < lastpage){
+                        page = response.body().getData().getUsers().getCurrent_page()+1;
+                    }
+                    userAdapter.addAll(list);
+//                    rv.setAdapter(new VisitorAdapter(getActivity(),rv, list, R.layout.item_visitor));
                     hideNullView();
                 }
             }
-
             @Override
             public void onFailure(Call<DataBase<UserDataBase<UserData<Visitor>>>> call, Throwable t) {
-                Log.e("log","onFailure "+t.getMessage());
                 showNullView();
+                sw_sale.setRefreshing(false);
             }
         });
 

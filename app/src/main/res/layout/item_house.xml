@@ -134,6 +134,7 @@
         android:layout_height="1dp"
         android:background="@color/main_bg_gray"/>
     <LinearLayout
+        android:visibility="gone"
         android:gravity="right"
         android:orientation="horizontal"
         android:layout_width="match_parent"

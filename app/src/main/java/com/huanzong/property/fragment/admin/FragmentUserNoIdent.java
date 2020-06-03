@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragmentUser2 extends Fragment {
+public class FragmentUserNoIdent extends Fragment {
     RecyclerView rv;
     TextView tv_null;
     @Nullable
@@ -38,17 +38,19 @@ public class FragmentUser2 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sale_list, container, false);
         initView(view);
         sw_sale = view.findViewById(R.id.sw_sale);
-        sw_sale.setOnRefreshListener(() ->{
-                    page = 1;
-                    //清空数据再次刷新
-                    userAdapter.setDataLists(null);
-                    setListData();
-                }
-        );
+        sw_sale.setOnRefreshListener(() -> {
+            page = 1;
+            //清空数据再次刷新
+            userAdapter.setDataLists(null);
+            setListData();
+        });
         return view;
     }
     PocketSwipeRefreshLayout sw_sale ;
-
+    private UserAdapter userAdapter;
+    private List<User> userList;
+    int page = 1;
+    int lastpage = 0;
     private void initView(View view) {
         rv = view.findViewById(R.id.rv_list);
         rv.setLayoutManager(new LinearLayoutManager(this.getActivity()));
@@ -81,18 +83,13 @@ public class FragmentUser2 extends Fragment {
         rv.setAdapter(userAdapter);
     }
 
-    int page = 1;
-    int lastpage = 0;
-    private UserAdapter userAdapter;
-    private List<User> userList;
     public void setListData(){
         HashMap<String,Integer> hashMap = new HashMap<>();
-        //1业主2家属3租客
-        hashMap.put("role",3);
+        //1认证 0未认证
+        hashMap.put("ident",0);
         hashMap.put("page",page);
-        HttpServer.getAPIService().onUserList(hashMap)
-//        HttpServer.getAPIService().onUserList(0,0,"",0,3,0)
-                .enqueue(new Callback<DataBase<UserDataBase<UserData<User>>>>() {
+        //        HttpServer.getAPIService().onUserList(0,0,"",0,1,0)
+        HttpServer.getAPIService().onUserList(hashMap).enqueue(new Callback<DataBase<UserDataBase<UserData<User>>>>() {
             @Override
             public void onResponse(Call<DataBase<UserDataBase<UserData<User>>>> call, Response<DataBase<UserDataBase<UserData<User>>>> response) {
                 sw_sale.setRefreshing(false);

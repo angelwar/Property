@@ -15,6 +15,7 @@ import com.huanzong.property.fragment.admin.UserAdapter
 import com.huanzong.property.fragment.admin.UserData
 import com.huanzong.property.fragment.admin.UserDataBase
 import com.huanzong.property.http.HttpServer
+import com.huanzong.property.util.PocketSwipeRefreshLayout
 import com.huanzong.property.util.SpacesItemDecoration
 import kotlinx.android.synthetic.main.fragment_sale_list.*
 import retrofit2.Call
@@ -24,6 +25,7 @@ import java.util.*
 
 class FragmentZushou3 : Fragment(){
 
+    var sw_sale : PocketSwipeRefreshLayout? =null
     var rv : RecyclerView? =null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var content = inflater.inflate(R.layout.fragment_sale_list,null)
@@ -32,14 +34,18 @@ class FragmentZushou3 : Fragment(){
         rv?.layoutManager = lay
         rv?.addItemDecoration(SpacesItemDecoration(20))
         setListData()
+
+        sw_sale = content.findViewById(R.id.sw_sale)
+        sw_sale?.setOnRefreshListener { setListData() }
         return content
     }
 
     fun setListData(){
-        HttpServer.getAPIService().yuyue(0).enqueue(object : Callback<DataBase<UserDataBase<UserData<SaleData>>>> {
+        HttpServer.getAPIService().yuyue().enqueue(object : Callback<DataBase<UserDataBase<UserData<SaleData>>>> {
 
             override fun onResponse(call: Call<DataBase<UserDataBase<UserData<SaleData>>>>, response: Response<DataBase<UserDataBase<UserData<SaleData>>>>) {
 
+                sw_sale?.isRefreshing = false
                 if (response.body() != null) {
                     if (response.body() != null && response.body()!!.code == 1) {
                         val list = response.body()!!.data.users
@@ -55,7 +61,7 @@ class FragmentZushou3 : Fragment(){
             }
 
             override fun onFailure(call: Call<DataBase<UserDataBase<UserData<SaleData>>>>, t: Throwable) {
-
+                sw_sale?.isRefreshing = false
                 tv_null.visibility = View.VISIBLE
             }
         })

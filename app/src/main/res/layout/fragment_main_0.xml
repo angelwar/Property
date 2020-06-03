@@ -23,7 +23,6 @@
             android:id="@+id/tv_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="306"
             android:textSize="@dimen/dp_s_24"
             android:textColor="@color/white"
             android:layout_gravity="center"/>
@@ -198,7 +197,5 @@
                 app:text="已处理预约"
                 android:background="@drawable/bg_no_get_comment"/>
         </LinearLayout>
-
-
     </LinearLayout>
 </LinearLayout>

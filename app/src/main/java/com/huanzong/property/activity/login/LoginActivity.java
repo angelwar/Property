@@ -42,16 +42,23 @@ public class LoginActivity extends XActivity {
 
                 Log.e("tag","login success");
                 if (response.body()!=null){
-                    switch (response.body().getCode()){
+                    DataBase<LoginTokenData> data = response.body();
+
+                    switch (data.getCode()){
                         case 0:
-                            XToast.error(response.body().getMsg());
+                            XToast.error(data.getMsg());
                             break;
                         case 1:
-                            SharedPreferencesUtil.addToken(LoginActivity.this,response.body().getData().getToken());
-                            SharedPreferencesUtil.addUid(LoginActivity.this,response.body().getData().getData().getUid());
-                            if (response.body().getData().getData().getXiaoqu()!=null&&response.body().getData().getData().getXiaoqu().size()>0){
-                                SharedPreferencesUtil.addCid(LoginActivity.this,response.body().getData().getData().getXiaoqu().get(0).getC_id());
+                            SharedPreferencesUtil.addToken(LoginActivity.this,data.getData().getToken());
+                            SharedPreferencesUtil.addUid(LoginActivity.this,data.getData().getData().getUid());
+                            if (data.getData().getData().getXiaoqu()!=null&&data.getData().getData().getXiaoqu().size()>0){
+                                SharedPreferencesUtil.addCid(LoginActivity.this,data.getData().getData().getXiaoqu().get(0).getC_id());
                             }
+                            String cidsname = "";
+                            for (XiaoQuData xiaoQuData:data.getData().getData().getXiaoqu()){
+                                cidsname = xiaoQuData.getName()+"\n";
+                            }
+                            SharedPreferencesUtil.addCidsName(LoginActivity.this,cidsname);
                             setAlias(username);
                             toMainActivity();
                             break;

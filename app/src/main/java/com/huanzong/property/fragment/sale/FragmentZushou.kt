@@ -10,20 +10,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.huanzong.property.R
 import com.huanzong.property.database.DataBase
-import com.huanzong.property.fragment.admin.User
-import com.huanzong.property.fragment.admin.UserAdapter
 import com.huanzong.property.fragment.admin.UserData
 import com.huanzong.property.fragment.admin.UserDataBase
 import com.huanzong.property.http.HttpServer
+import com.huanzong.property.util.PocketSwipeRefreshLayout
 import com.huanzong.property.util.SpacesItemDecoration
 import kotlinx.android.synthetic.main.fragment_sale_list.*
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.HashMap
 
 class FragmentZushou : Fragment(){
 
+    var sw_sale : PocketSwipeRefreshLayout? = null
     var rv : RecyclerView? =null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var content = inflater.inflate(R.layout.fragment_sale_list,null)
@@ -32,14 +34,19 @@ class FragmentZushou : Fragment(){
         rv?.layoutManager = lay
         rv?.addItemDecoration(SpacesItemDecoration(20))
         setListData()
+        sw_sale = content.findViewById(R.id.sw_sale)
+        sw_sale?.setOnRefreshListener { setListData() }
         return content
     }
 
     fun setListData(){
-        HttpServer.getAPIService().onGetHouse(0, 0, "", 0).enqueue(object : Callback<DataBase<UserDataBase<UserData<SaleData>>>> {
+
+        var hashMap = hashMapOf("zs" to 0)
+        HttpServer.getAPIService().onGetHouse(hashMap)
+                .enqueue(object : Callback<DataBase<UserDataBase<UserData<SaleData>>>> {
 
             override fun onResponse(call: Call<DataBase<UserDataBase<UserData<SaleData>>>>, response: Response<DataBase<UserDataBase<UserData<SaleData>>>>) {
-
+                sw_sale?.isRefreshing = false
                 if (response.body() != null) {
 
                     if (response.body() != null && response.body()!!.code == 1) {
@@ -60,6 +67,7 @@ class FragmentZushou : Fragment(){
 
             override fun onFailure(call: Call<DataBase<UserDataBase<UserData<SaleData>>>>, t: Throwable) {
                 tv_null.visibility = View.VISIBLE
+                sw_sale?.isRefreshing = false
             }
         })
     }

@@ -3,15 +3,26 @@ package com.huanzong.property.http;
 import com.huanzong.property.activity.login.LoginTokenData;
 import com.huanzong.property.database.DataBase;
 import com.huanzong.property.database.Visitor;
+import com.huanzong.property.database.ZushouBean1;
 import com.huanzong.property.fragment.admin.User;
 import com.huanzong.property.fragment.admin.UserData;
 import com.huanzong.property.fragment.admin.UserDataBase;
 import com.huanzong.property.fragment.firstpage.TongJiDataBase;
 import com.huanzong.property.fragment.sale.SaleData;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
+import rx.Observable;
 
 public interface APIService {
 
@@ -36,11 +47,11 @@ public interface APIService {
 
     /**
      * 小区统计数据
-     * @param cids 小区id  样式： [22,33,44]
      * @return
      */
+
     @POST("/api/admin/Public/tongji")
-    Call<DataBase<TongJiDataBase>> tongji(@Query("cids")String cids);
+    Call<DataBase<TongJiDataBase>> tongji();
 
     /**
      * 修改密码
@@ -65,6 +76,9 @@ public interface APIService {
     Call<DataBase<UserDataBase<UserData<User>>>> onUserList(@Query("c_id")int c_id, @Query("status")int status,
                                                             @Query("mobile")String mobile, @Query("ident")int ident,
                                                             @Query("role")int role, @Query("page")int page);
+    @Multipart
+    @POST("/api/admin/User/index")
+    Call<DataBase<UserDataBase<UserData<User>>>> onUserList(@PartMap HashMap<String,Integer> map);
 
     /**
      *
@@ -92,13 +106,14 @@ public interface APIService {
      */
     @POST("/api/admin/User/vister")
     Call<DataBase<UserDataBase<UserData<Visitor>>>> onVisiter(@Query("mobile")String s);
+
     /**
      * 访客记录
      * @return
      */
+    @Multipart
     @POST("/api/admin/User/vister")
-    Call<DataBase<UserDataBase<UserData<Visitor>>>> onVisiter();
-
+    Call<DataBase<UserDataBase<UserData<Visitor>>>> onVisiter(@PartMap HashMap<String,Integer> map);
     /**
      * 租售房屋管理
      * @param c_id 物业下属小区id 格式 [22,32]
@@ -112,6 +127,10 @@ public interface APIService {
                                                                 @Query("status")int status,
                                                                 @Query("mobile")String mobile,
                                                                 @Query("zs")int zs);
+
+    @Multipart
+    @POST("/api/admin/House/index")
+    Call<DataBase<UserDataBase<UserData<SaleData>>>> onGetHouse(@PartMap HashMap<String,Integer> map);
 
     /**
      * 删除租售信息
@@ -140,14 +159,25 @@ public interface APIService {
      * @return
      */
     @POST("/api/admin/House/upstatus")
-    Call<DataBase<String>> upDataHouseStatus(@Query("id")int id,@Query("s")String status,@Query("v")int v);
+    Call<DataBase<String>> upDataHouseStatus(@Query("id")int id,@Query("ss")String status,@Query("vv")int v);
 
     /**
      * 未处理预约记录
      * 已处理 vv = 1
-     * @param cids
      * @return
      */
     @POST("/api/admin/House/yuyue")
-    Call<DataBase<UserDataBase<UserData<SaleData>>>> yuyue(@Query("cids")int cids);
+    Call<DataBase<UserDataBase<UserData<SaleData>>>> yuyue();
+
+    /**
+     * 查询未处理预约记录
+     * 已处理 vv = 1
+     * @return
+     */
+    @POST("/api/admin/House/yuyue")
+    Call<DataBase<UserDataBase<UserData<SaleData>>>> queryMoblie(@Query("mobile")String mobile);
+
+
+    @GET("/portal/house/getHouseone.html")
+    Call<DataBase<ZushouBean1>> getHouseone(@Query("id")int id);
 }

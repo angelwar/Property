@@ -10,6 +10,7 @@ import com.huanzong.property.database.DataBase
 import com.huanzong.property.fragment.firstpage.TongJiData
 import com.huanzong.property.fragment.firstpage.TongJiDataBase
 import com.huanzong.property.http.HttpServer
+import com.huanzong.property.util.SharedPreferencesUtil
 import kotlinx.android.synthetic.main.fragment_main_0.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,7 +19,7 @@ import retrofit2.Response
 class FirstPageFragment : Fragment(){
 
     fun getData(){
-        HttpServer.getAPIService().tongji("").enqueue(object : Callback<DataBase<TongJiDataBase>>{
+        HttpServer.getAPIService().tongji().enqueue(object : Callback<DataBase<TongJiDataBase>>{
             override fun onFailure(call: Call<DataBase<TongJiDataBase>>, t: Throwable) {
 
             }
@@ -28,7 +29,6 @@ class FirstPageFragment : Fragment(){
                     showData(data)
                 }
             }
-
         })
     }
 
@@ -44,16 +44,16 @@ class FirstPageFragment : Fragment(){
         getData()
     }
     fun showData(data : TongJiData){
-        tv_total.text = data.zrs.toString()
-        tv_wrzyh.text = "未认证用户("+data.wrzyh.toString()+")"
-        tv_wrzfw.text = "未认证房屋("+data.wshfw.toString()+")"
-        tn_yezhu.setNumber(data.yztj)
-        tn_zuke.setNumber(data.zktj)
-        tn_fagnke.setNumber(data.fktj)
-        tn_lahei.setNumber(data.lhzh)
-        tn_zushou.setNumber(data.zstj)
-        tn_finish.setNumber(data.ywcdd)
-        tn_no_yuyue.setNumber(data.wyytj)
-        tn_deal_yuyue.setNumber(data.yyytj)
+        tv_total?.text = data.zrs.toString()
+        tv_wrzyh?.text = "未认证用户("+data.wrzyh.toString()+")"
+        tv_wrzfw?.text = "未认证房屋("+data.wshfw.toString()+")"
+        tn_yezhu?.setNumber(data.yztj)
+        tn_zuke?.setNumber(data.zktj)
+        tn_fagnke?.setNumber(data.fktj)
+        tn_lahei?.setNumber(data.lhzh)
+        tn_zushou?.setNumber(data.zstj)
+        tn_finish?.setNumber(data.ywcdd)
+        tn_no_yuyue?.setNumber(data.wyytj)
+        tn_deal_yuyue?.setNumber(data.yyytj)
     }
 }

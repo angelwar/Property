@@ -18,6 +18,19 @@
             android:gravity="center"
             android:layout_centerInParent="true"
             android:textColor="@color/colorWhite"/>
+
+        <TextView
+            android:visibility="gone"
+            android:onClick="onClick"
+            android:id="@+id/tv_title_right"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="发布房源"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/colorWhite"/>
     </RelativeLayout>
 
 <!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
@@ -40,14 +53,7 @@
 <!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
 
-    <com.huanzong.property.util.PocketSwipeRefreshLayout
-        android:id="@+id/sw_sale"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/order_tab"
             android:layout_width="match_parent"
@@ -61,6 +67,5 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
-        </LinearLayout>
-    </com.huanzong.property.util.PocketSwipeRefreshLayout>
+
 </LinearLayout>

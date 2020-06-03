@@ -23,9 +23,8 @@ import retrofit2.Response
 import java.util.*
 import kotlin.collections.HashMap
 
-class FragmentZushou1 : Fragment(){
+class FragmentZushouNoIdent : Fragment(){
 
-    var sw_sale : PocketSwipeRefreshLayout? = null
     var rv : RecyclerView? =null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var content = inflater.inflate(R.layout.fragment_sale_list,null)
@@ -38,10 +37,11 @@ class FragmentZushou1 : Fragment(){
         sw_sale?.setOnRefreshListener { setListData() }
         return content
     }
-
+    var sw_sale : PocketSwipeRefreshLayout? = null
     fun setListData(){
 
-        var hashMap = hashMapOf("zs" to 1)
+        //租售状态 0 未通过审核  1通过审核 2已租或已售  3下架
+        var hashMap = hashMapOf("status" to 0)
         HttpServer.getAPIService().onGetHouse(hashMap)
                 .enqueue(object : Callback<DataBase<UserDataBase<UserData<SaleData>>>> {
 

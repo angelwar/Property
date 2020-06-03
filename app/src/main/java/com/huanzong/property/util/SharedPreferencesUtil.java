@@ -98,4 +98,14 @@ public class SharedPreferencesUtil {
         }
     }
 
+    public static String queryCidsName(Context context) {
+        SharedPreferences shared = getShared(context,FILE_NAME_USER);
+        return shared.getString("cidsName","环纵媒体科技");
+    }
+
+    //保存cid
+    public  static void addCidsName(Context context, String cidsName){
+        SharedPreferences sharedPreferences = getShared(context,FILE_NAME_USER);
+        sharedPreferences.edit().putString("cidsName",cidsName).apply();
+    }
 }

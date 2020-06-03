@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.huanzong.property.R;
+import com.huanzong.property.activity.HouseDetailActivity;
 import com.huanzong.property.database.DataBase;
 import com.huanzong.property.http.HttpServer;
 import com.youth.xframe.adapter.XRecyclerViewAdapter;
@@ -100,6 +101,13 @@ public class SaleHouseAdapter extends XRecyclerViewAdapter<SaleData> {
                 Intent dialIntent =  new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" +data.getSjhm()));//跳转到拨号界面，同时传递电话号码
                 context.startActivity(dialIntent);
             }
+        });
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, HouseDetailActivity.class);
+            //传房屋id
+            intent.putExtra("id",data.getId());
+            context.startActivity(intent);
         });
 
     }

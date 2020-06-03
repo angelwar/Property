@@ -39,14 +39,14 @@
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
-    <com.huanzong.property.util.PocketSwipeRefreshLayout
-        android:id="@+id/sw_user"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<!--    <com.huanzong.property.util.PocketSwipeRefreshLayout-->
+<!--        android:id="@+id/sw_user"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+<!--        <LinearLayout-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/order_tab"
                 android:layout_width="match_parent"
@@ -60,6 +60,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-        </LinearLayout>
-    </com.huanzong.property.util.PocketSwipeRefreshLayout>
+<!--        </LinearLayout>-->
+<!--    </com.huanzong.property.util.PocketSwipeRefreshLayout>-->
 </LinearLayout>

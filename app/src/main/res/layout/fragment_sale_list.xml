@@ -3,7 +3,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
+    <com.huanzong.property.util.PocketSwipeRefreshLayout
+        android:id="@+id/sw_sale"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:background="@color/colorLightBlue"
         android:id="@+id/rv_list"
@@ -17,4 +24,6 @@
         android:text="没有数据！"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    </LinearLayout>
+    </com.huanzong.property.util.PocketSwipeRefreshLayout>
 </FrameLayout>
