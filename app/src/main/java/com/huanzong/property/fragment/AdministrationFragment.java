@@ -18,6 +18,8 @@ import com.huanzong.property.fragment.admin.FragmentUserBlack;
 import com.huanzong.property.fragment.admin.FragmentUserNoIdent;
 import com.huanzong.property.fragment.admin.FragmentVisitor;
 import com.huanzong.property.fragment.sale.FragmentOrderListAdapter;
+import com.huanzong.property.util.SharedPreferencesUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,12 +58,13 @@ public class AdministrationFragment extends Fragment {
         FragmentOrderListAdapter adapter = new FragmentOrderListAdapter(getActivity().getSupportFragmentManager(),fragments, new String[]{"未认证","业主", "租客", "访客","拉黑"});
         viewPager.setAdapter(adapter);
 
-        tablayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        if (SharedPreferencesUtil.isMove(getActivity())){
+            tablayout.postDelayed(() -> {
                 tablayout.getTabAt(index).select();
-            }
-        }, 100);
+                SharedPreferencesUtil.addisMove(getActivity(),false);
+            }, 100);
+        }
+
         tablayout.setupWithViewPager(viewPager);
         tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

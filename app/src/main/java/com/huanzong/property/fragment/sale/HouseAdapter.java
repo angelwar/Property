@@ -35,5 +35,4 @@ public class HouseAdapter extends XRecyclerViewAdapter<HouseData> {
         tv.setText(data.getC_name());
     }
 
-
 }

@@ -9,14 +9,15 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_logo"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/internet"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:icon">
-        <activity android:name=".activity.NotifyListActivity"></activity>
+        <activity android:name=".activity.PublishActivity"></activity>
+        <activity android:name=".activity.NotifyListActivity" />
         <activity android:name=".activity.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +27,7 @@
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.HouseDetailActivity" />
+        <activity android:name=".activity.ImageLookActivity" />
         <activity android:name=".activity.PasswordActivity" /> <!-- Required since 3.0.7 -->
         <!-- 新的 tag/alias 接口结果返回需要开发者配置一个自定的广播 -->
         <!-- 3.3.0开始所有事件将通过该类回调 -->
@@ -48,6 +50,7 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+
                 <category android:name="com.huanzong.property" />
             </intent-filter>
         </receiver>
@@ -55,14 +58,17 @@
             android:name=".receiver.service.MyReceiver"
             android:enabled="true"
             android:exported="false">
-            <!--<intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> &lt;!&ndash; Required  用户注册SDK的intent &ndash;&gt;
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> &lt;!&ndash; Required  用户接收SDK消息的intent &ndash;&gt;
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> &lt;!&ndash; Required  用户接收SDK通知栏信息的intent &ndash;&gt;
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> &lt;!&ndash; Required  用户打开自定义通知栏的intent &ndash;&gt;
                 <action android:name="cn.jpush.android.intent.CONNECTION" /> &lt;!&ndash; 接收网络变化 连接/断开 since 1.6.3 &ndash;&gt;
                 <category android:name="com.huanzong.property" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </receiver>
         <receiver
             android:name="cn.jpush.android.service.AlarmReceiver"

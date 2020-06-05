@@ -108,4 +108,27 @@ public class SharedPreferencesUtil {
         SharedPreferences sharedPreferences = getShared(context,FILE_NAME_USER);
         sharedPreferences.edit().putString("cidsName",cidsName).apply();
     }
+
+    public static Boolean isMove(Context context) {
+        SharedPreferences shared = getShared(context,FILE_NAME_USER);
+        return shared.getBoolean("isMove",false);
+    }
+
+    //保存cid
+    public  static void addisMove(Context context, boolean cidsName){
+        SharedPreferences sharedPreferences = getShared(context,FILE_NAME_USER);
+        sharedPreferences.edit().putBoolean("isMove",cidsName).apply();
+    }
+
+
+    public static int getZs(Context context) {
+        SharedPreferences shared = getShared(context,FILE_NAME_USER);
+        return shared.getInt("zs",0);
+    }
+
+    //保存cid
+    public  static void setZs(Context context, int zs){
+        SharedPreferences sharedPreferences = getShared(context,FILE_NAME_USER);
+        sharedPreferences.edit().putInt("zs",zs).apply();
+    }
 }

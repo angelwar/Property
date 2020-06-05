@@ -156,6 +156,8 @@ public interface APIService {
      * @param id 房屋ID
      * @param status 修改的字段： 拉黑 status   认证 ident
      * @param v 修改值 同上 v=1 拉黑 0 取消拉黑 v=1通过认证 0取消认证
+     *设置完成 出租或者出售：
+     *  app.hzmtkj.com/api/admin/House/upstatus?id=房屋ID&ss=status&vv=2
      * @return
      */
     @POST("/api/admin/House/upstatus")
@@ -168,6 +170,15 @@ public interface APIService {
      */
     @POST("/api/admin/House/yuyue")
     Call<DataBase<UserDataBase<UserData<SaleData>>>> yuyue();
+
+    /**
+     * 未处理预约记录
+     * 已处理 vv = 1
+     * @return
+     */
+    @Multipart
+    @POST("/api/admin/House/yuyue")
+    Call<DataBase<UserDataBase<UserData<SaleData>>>> yuyue(@PartMap HashMap<String,Integer> map);
 
     /**
      * 查询未处理预约记录

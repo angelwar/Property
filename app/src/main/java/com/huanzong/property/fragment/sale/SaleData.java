@@ -22,11 +22,48 @@ public class SaleData implements Serializable {
         private String sjhm;
         private String tg;
         private String jtsd;
-        private String status;
+        private int status;
         private int zs;
         private String hx;
         private String zx;
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    private String price;
+        private long shi;//室
+        private long wei;//卫
+        private long ting;//厅
         private List<String> thumb;
+
+    public long getShi() {
+        return shi;
+    }
+
+    public void setShi(long shi) {
+        this.shi = shi;
+    }
+
+    public long getWei() {
+        return wei;
+    }
+
+    public void setWei(long wei) {
+        this.wei = wei;
+    }
+
+    public long getTing() {
+        return ting;
+    }
+
+    public void setTing(long ting) {
+        this.ting = ting;
+    }
 
     public String getZx() {
         return zx;
@@ -188,11 +225,11 @@ public class SaleData implements Serializable {
             this.jtsd = jtsd;
         }
 
-        public String getStatus() {
+        public int getStatus() {
             return status;
         }
 
-        public void setStatus(String status) {
+        public void setStatus(int status) {
             this.status = status;
         }
 

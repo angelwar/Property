@@ -26,22 +26,28 @@ import kotlin.collections.HashMap
 class FragmentZushou2 : Fragment(){
 
     var rv : RecyclerView? =null
+    var sw_sale : PocketSwipeRefreshLayout? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var content = inflater.inflate(R.layout.fragment_sale_list,null)
         rv = content.findViewById<RecyclerView>(R.id.rv_list)
         val lay = LinearLayoutManager(activity)
         rv?.layoutManager = lay
         rv?.addItemDecoration(SpacesItemDecoration(20))
-        setListData()
         sw_sale = content.findViewById(R.id.sw_sale)
-        sw_sale?.setOnRefreshListener { setListData() }
+        sw_sale?.setOnRefreshListener {
+
+            setListData() }
+        val bundle = arguments
+        if (bundle != null) {
+            zs = bundle.getInt("zs")
+        }
         return content
     }
-    var sw_sale : PocketSwipeRefreshLayout? = null
+    var zs = 0
     fun setListData(){
-
+        //已预约
         //租售状态 0 未通过审核  1通过审核 2已租或已售  3下架
-        var hashMap = hashMapOf("status" to 2)
+        var hashMap = hashMapOf("status" to 2,"zs" to zs)
         HttpServer.getAPIService().onGetHouse(hashMap)
                 .enqueue(object : Callback<DataBase<UserDataBase<UserData<SaleData>>>> {
 

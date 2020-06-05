@@ -24,7 +24,7 @@ public class ZushouBean1 implements Serializable {
     private String sjhm;
     private String tg;
     private String jtsd;
-    private String status;
+    private int status;
     private int zs;
     private String hx;
     private String price;
@@ -249,11 +249,11 @@ public class ZushouBean1 implements Serializable {
         this.jtsd = jtsd;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

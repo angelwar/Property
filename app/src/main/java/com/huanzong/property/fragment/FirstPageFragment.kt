@@ -1,5 +1,6 @@
 package com.huanzong.property.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,4 +57,9 @@ class FirstPageFragment : Fragment(){
         tn_no_yuyue?.setNumber(data.wyytj)
         tn_deal_yuyue?.setNumber(data.yyytj)
     }
+
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        getData()
+//    }
 }

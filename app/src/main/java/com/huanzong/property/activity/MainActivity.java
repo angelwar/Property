@@ -15,7 +15,6 @@ import com.huanzong.property.R;
 import com.huanzong.property.activity.login.LoginActivity;
 import com.huanzong.property.fragment.AdministrationFragment;
 import com.huanzong.property.fragment.CenterFragment;
-import com.huanzong.property.fragment.FirstFragment;
 import com.huanzong.property.fragment.FirstPageFragment;
 import com.huanzong.property.fragment.SaleFragment;
 import com.huanzong.property.http.HttpServer;
@@ -115,20 +114,20 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.tn_zushou:toSaleFragment(1);
                 break;
-            case R.id.tn_finish:toSaleFragment(3);
+            case R.id.tn_finish:toSaleFragment(2);
                 break;
             case R.id.tn_no_yuyue:toSaleFragment(4);
                 break;
-            case R.id.tn_deal_yuyue:toSaleFragment(4);
+            case R.id.tn_deal_yuyue:toSaleFragment(3);
                 break;
             case R.id.modify_passeord:
                 modifyPassword();
                 break;
 
-            case R.id.tv_title_right:
+//            case R.id.tv_title_right:
 //                startActivity(new Intent(this,PasswordActivity.class));
-                XToast.info("发布房源");
-                break;
+//                XToast.info("发布房源");
+//                break;
         }
 
     }
@@ -142,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
         trans = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         bundle.putInt("index", index);
+        bundle.putBoolean("isTo", true);
+        SharedPreferencesUtil.setZs(this,3);
+        SharedPreferencesUtil.addisMove(this,true);
         myFragment3.setArguments(bundle);
         trans.replace(R.id.fragment_rg,myFragment3);
         trans.commit();
@@ -152,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         trans = getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         bundle.putInt("index", index);
+        SharedPreferencesUtil.addisMove(this,true);
         myFragment2.setArguments(bundle);
         trans.replace(R.id.fragment_rg,myFragment2);
         trans.commit();

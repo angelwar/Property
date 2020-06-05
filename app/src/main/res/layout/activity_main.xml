@@ -16,36 +16,41 @@
     </FrameLayout>
 
     <RadioGroup
+        android:paddingTop="5dp"
         android:id="@+id/rb_group"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal">
         <RadioButton
             android:id="@+id/rb_main"
             android:checked="true"
             style="@style/tab_menu_item"
             android:drawableTop="@drawable/selector_rg_0"
+            android:textColor="@color/white"
             android:text="@string/main_name_0"/>
 
         <RadioButton
             android:id="@+id/rb_order"
             style="@style/tab_menu_item"
             android:drawableTop="@drawable/selector_rg_1"
+            android:textColor="@color/white"
             android:text="@string/main_name_1"/>
 
         <RadioButton
             android:id="@+id/rb_notice"
             style="@style/tab_menu_item"
             android:drawableTop="@drawable/selector_rg_2"
+            android:textColor="@color/white"
             android:text="@string/main_name_2"/>
 
         <RadioButton
             android:id="@+id/rb_mine"
             style="@style/tab_menu_item"
             android:drawableTop="@drawable/selector_rg_3"
-            android:text="@string/main_name_3"/>
+            android:text="@string/main_name_3"
+            android:textColor="@color/white"/>
     </RadioGroup>
 
 

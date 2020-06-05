@@ -54,18 +54,23 @@ class HouseDetailActivity : XActivity(){
 
     private fun setViewData(data: ZushouBean1?) {
 
-        var zs = "售"
+        var zs = "已出售"
         var unit = "万元"
         if(data?.zs==0){
-            zs = "租"
+            zs = "已出租"
             unit = "元/月"
+            bt_sale.visibility = View.GONE
+            bt_zu.visibility = View.VISIBLE
+        }else{
+            bt_sale.visibility = View.VISIBLE
+            bt_zu.visibility = View.GONE
         }
         tv_yongjin.text = "佣金："+data?.price+"元"
         tv_title.text = data?.xqmc
         tv_money.text = data?.getFy()+unit
         fwhx.text = data?.getHx()
         jzmj.text = data?.getJzmj()
-        lc.text = data?.getLc()+"层"
+//        lc.text = data?.getLc()+"层"
         var cx = "东"
         when (data?.getCx()) {
             0 -> cx = "东"
@@ -81,6 +86,12 @@ class HouseDetailActivity : XActivity(){
         }
 
         tv_cx.text = cx
+
+        if(data?.status==2){
+            tv_zs.visibility = View.VISIBLE
+            tv_zs.text = zs
+        }
+
     }
 
     private fun setBanner(data:ZushouBean1?) {
@@ -94,7 +105,7 @@ class HouseDetailActivity : XActivity(){
             }
             //设置图片集合
             banner.setImages(images)
-            banner.setOnBannerListener(OnBannerListener { position ->
+            banner.setOnBannerListener { position ->
                 //打开预览界面
                 GPreviewBuilder.from(this@HouseDetailActivity)
                         //是否使用自定义预览界面，当然8.0之后因为配置问题，必须要使用
@@ -106,7 +117,7 @@ class HouseDetailActivity : XActivity(){
                         // 小圆点
                         //  .setType(GPreviewBuilder.IndicatorType.Dot)
                         .start()//启动
-            })
+            }
 
             //banner设置方法全部调用完毕时最后调用
             banner.start()
@@ -128,7 +139,18 @@ class HouseDetailActivity : XActivity(){
 
     fun onClick(v : View){
         when(v.id){
-            R.id.bt_delete->onDeleteHouse(id)
+            R.id.bt_delete->{
+                val dialog = SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE)
+                dialog.titleText = "确认删除？"
+                dialog.cancelText = "取消"
+                dialog.confirmText = "确认"
+                dialog.setConfirmClickListener {
+                    dialog.dismiss()
+                    onDeleteHouse(id)
+                }
+                dialog.show()
+
+            }
             R.id.bt_ident->{
                 val dialog = SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE)
                 dialog.titleText = "请输入佣金"
@@ -142,6 +164,27 @@ class HouseDetailActivity : XActivity(){
                 dialog.show()
             }
 
+            R.id.bt_sale->{
+                val dialog = SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE)
+                dialog.titleText = "请确认该房屋已出售"
+                dialog.cancelText = "取消"
+                dialog.confirmText = "确认"
+                dialog.setConfirmClickListener {
+                    dialog.dismiss()
+                    onUpdata(id,"status",2) }
+                dialog.show()
+            }
+
+            R.id.bt_zu-> {
+                val dialog = SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE)
+                dialog.titleText = "请确认该房屋已出租"
+                dialog.cancelText = "取消"
+                dialog.confirmText = "确认"
+                dialog.setConfirmClickListener {
+                    dialog.dismiss()
+                    onUpdata(id,"status",2) }
+                dialog.show()
+            }
         }
     }
 
@@ -162,17 +205,22 @@ class HouseDetailActivity : XActivity(){
                 dialog.show()
             }
         })
-
     }
 
     private fun onDeleteHouse(id: Int) {
+        val dialog = SweetAlertDialog(this)
         HttpServer.getAPIService().deteleHouse(id).enqueue(object : Callback<DataBase<String>> {
             override fun onResponse(call: Call<DataBase<String>>, response: Response<DataBase<String>>) {
-
+                if(response.body()?.code == 1){
+                    dialog.titleText = "删除成功！"
+                    dialog.show()
+                    finish()
+                }
             }
 
             override fun onFailure(call: Call<DataBase<String>>, t: Throwable) {
-
+                dialog.titleText = "删除失败！"
+                dialog.show()
             }
         })
     }

@@ -56,7 +56,6 @@ public class FragmentVisitor extends Fragment {
         rv.addItemDecoration(new SpacesItemDecoration(20));
 
         tv_null = view.findViewById(R.id.tv_null);
-        setListData();
         userList = new ArrayList<>();
         userAdapter = new VisitorAdapter(getActivity(),rv,userList,R.layout.item_visitor);
 
@@ -68,7 +67,10 @@ public class FragmentVisitor extends Fragment {
             }
             @Override
             public void onLoadMore() {//加载更多回调方法
-                if (page==lastpage){
+                if (sw_sale.isRefreshing() == true){
+                    return;
+                }
+                if (page>lastpage){
                     //因直接userAdapter.showLoadComplete()，会显示报错，延时2秒再显示RecyclerView is computing a layout or scrolling
                     new Handler().postDelayed(() -> {
                         userAdapter.showLoadComplete();//没有更多数据了
@@ -82,7 +84,7 @@ public class FragmentVisitor extends Fragment {
         rv.setAdapter(userAdapter);
     }
     int page = 1;
-    int lastpage = 0;
+    int lastpage = 1;
     private VisitorAdapter userAdapter;
     private List<Visitor> userList;
     public void setListData(){
@@ -98,7 +100,7 @@ public class FragmentVisitor extends Fragment {
                         showNullView();return;
                     }
                     lastpage = response.body().getData().getUsers().getLast_page();
-                    if (page < lastpage){
+                    if (page <= lastpage){
                         page = response.body().getData().getUsers().getCurrent_page()+1;
                     }
                     userAdapter.addAll(list);
@@ -112,8 +114,6 @@ public class FragmentVisitor extends Fragment {
                 sw_sale.setRefreshing(false);
             }
         });
-
-
 
     }
     TextView tv_null;

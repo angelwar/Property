@@ -33,10 +33,9 @@ class FragmentZushou3 : Fragment(){
         val lay = LinearLayoutManager(activity)
         rv?.layoutManager = lay
         rv?.addItemDecoration(SpacesItemDecoration(20))
-        setListData()
-
         sw_sale = content.findViewById(R.id.sw_sale)
-        sw_sale?.setOnRefreshListener { setListData() }
+        sw_sale?.setOnRefreshListener {
+            setListData() }
         return content
     }
 

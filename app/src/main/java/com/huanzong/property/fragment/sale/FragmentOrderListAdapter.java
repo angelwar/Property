@@ -2,6 +2,7 @@ package com.huanzong.property.fragment.sale;
 
 import android.content.Context;
 import android.os.Parcelable;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -44,13 +45,15 @@ public class FragmentOrderListAdapter extends FragmentStatePagerAdapter  {
         return null;
     }
 
-    @Override
-    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-//        super.destroyItem(container, position, object);
-    }
 
     @Override
     public void restoreState(Parcelable state, ClassLoader loader) {
 
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        // 最简单解决 notifyDataSetChanged() 页面不刷新问题的方法
+        return POSITION_NONE;
     }
 }

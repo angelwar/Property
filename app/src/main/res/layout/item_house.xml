@@ -108,7 +108,7 @@
         <TextView
             android:id="@+id/tv_hx"
             android:textColor="@color/color_blue"
-            android:text="一室一厅一卫"
+            android:text="户型：一室一厅一卫"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
@@ -119,14 +119,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-    <TextView
-        android:id="@+id/tv_price"
-        android:gravity="right"
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/red"
-        android:textSize="@dimen/sp_s_20"
-        android:text="价格：2000元"/>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_yong_item"
+            android:text="佣金："
+            android:textColor="@color/red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_price"
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:textSize="@dimen/sp_s_20"
+            android:text="月租 ：2000元"/>
+    </LinearLayout>
+
     <View
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"

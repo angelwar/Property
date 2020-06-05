@@ -15,6 +15,7 @@ import com.huanzong.property.R;
 import com.huanzong.property.activity.HouseDetailActivity;
 import com.huanzong.property.database.DataBase;
 import com.huanzong.property.http.HttpServer;
+import com.huanzong.property.util.NumberToHan;
 import com.youth.xframe.adapter.XRecyclerViewAdapter;
 import com.youth.xframe.adapter.XViewHolder;
 
@@ -36,14 +37,21 @@ public class SaleHouseAdapter extends XRecyclerViewAdapter<SaleData> {
     @Override
     protected void bindData(XViewHolder holder, SaleData data, int position) {
         TextView price = holder.itemView.findViewById(R.id.tv_price);
-        price.setText("价格："+data.getFy()+"元");
+        String unit = "元";
+        String priceStr = "月租:";
+        if (data.getZs()==1){
+            priceStr = "售价:";
+            unit = "万元";
+        }
+        price.setText(priceStr+data.getFy()+unit);
    TextView xqmc = holder.itemView.findViewById(R.id.tv_user_community);
         xqmc.setText(data.getXqmc());
    TextView name = holder.itemView.findViewById(R.id.tv_user_name);
         name.setText(data.getLxrxm());
 
         TextView hx = holder.itemView.findViewById(R.id.tv_hx);
-        hx.setText(data.getHx());
+        String hxStr = "户型："+NumberToHan.shuzizhuanzhongwen(data.getShi())+"室"+NumberToHan.shuzizhuanzhongwen(data.getTing())+"厅"+NumberToHan.shuzizhuanzhongwen(data.getWei())+"卫";
+        hx.setText(hxStr);
         TextView jzmj = holder.itemView.findViewById(R.id.tv_jzmj);
         jzmj.setText(data.getJzmj()+"㎡");
         TextView zx = holder.itemView.findViewById(R.id.tv_zx);
@@ -58,6 +66,14 @@ public class SaleHouseAdapter extends XRecyclerViewAdapter<SaleData> {
 
         TextView tv_phone = holder.itemView.findViewById(R.id.tv_phone);
         tv_phone.setText(data.getSjhm());
+        TextView tv_yong_item = holder.itemView.findViewById(R.id.tv_yong_item);
+        if (data.getStatus()==0){
+            tv_yong_item.setVisibility(View.GONE);
+        }else {
+            tv_yong_item.setVisibility(View.VISIBLE);
+            tv_yong_item.setText("佣金："+data.getPrice()+"元");
+        }
+
 
         TextView bt_ident = holder.itemView.findViewById(R.id.bt_ident);
         TextView bt_delete = holder.itemView.findViewById(R.id.bt_delete);
@@ -140,4 +156,5 @@ public class SaleHouseAdapter extends XRecyclerViewAdapter<SaleData> {
             }
         });
     }
+
 }

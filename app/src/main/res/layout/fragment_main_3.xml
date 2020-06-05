@@ -12,10 +12,9 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerInParent="true"
-            android:src="@mipmap/logo_hz"
+            android:src="@mipmap/icon_logo"
             android:scaleType="centerCrop"
-            android:textColor="@color/colorPrimary"
-            android:background="@drawable/shape_circle_blue"/>
+            android:textColor="@color/colorPrimary"/>
         <TextView
             android:layout_below="@id/bt_notify"
             android:id="@+id/tv_community_name"
