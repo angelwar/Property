@@ -3,156 +3,198 @@ package com.huanzong.property.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bigkoo.pickerview.configure.PickerOptions;
 import com.google.android.flexbox.FlexboxLayout;
 import com.huanzong.property.R;
+import com.huanzong.property.adapter.GridImageAdapter;
 import com.youth.xframe.base.XActivity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 
 public class PublishActivity extends XActivity {
 
-  /*  private int themeId;
+    private int themeId;
     private List<LocalMedia> selectList = new ArrayList<>();
     private GridImageAdapter adapter;
     private int aspect_ratio_x, aspect_ratio_y;
 
-    private AppCompatSpinner spCommunity;
+    private Spinner spCommunity;
     private FlexboxLayout.LayoutParams layoutParams;
 
+    private RecyclerView rvPicture;
+    private LinearLayout llShuru;
+    private LinearLayout llXuanze;
+    private FlexboxLayout flBoxCcyq;
+    private FlexboxLayout flBoxFwld;
+    private FlexboxLayout flBoxFwpz;
+    private EditText etDetail;
+    private int cx;
+    private int cw;
+    private int dt;
+
     @Override
-    protected void init(Bundle savedInstanceState) {
-        initToolBar();
+    public int getLayoutId() {
+        return R.layout.activity_publish;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
         setTitle("租房发布");
-        initView();
 
-        dataBind.setVm(model);
-        dataBind.setP(p);
-        p.initData();
-
-        setPiker();
+        getData();
 
         //设置样式
         themeId = R.style.picture_default_style;
+        rvPicture = findViewById(R.id.rv_picture);
+        llShuru = findViewById(R.id.ll_shuru);
+        llXuanze = findViewById(R.id.ll_xuanze);
+        etDetail = findViewById(R.id.et_detail);
+        etDetail.addTextChangedListener(wu);
+
+        flBoxCcyq = findViewById(R.id.fl_box_ccyq);
+        flBoxFwld = findViewById(R.id.fl_box_fwld);
+        flBoxFwpz = findViewById(R.id.fl_box_fwpz);
+
         GridLayoutManager manager = new GridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
-        dataBind.rvPicture.setLayoutManager(manager);
+        rvPicture.setLayoutManager(manager);
 
         adapter = new GridImageAdapter(this, onAddPicClickListener);
         adapter.setList(selectList);
         //选择最多图片
         adapter.setSelectMax(9);
-        dataBind.rvPicture.setAdapter(adapter);
+        rvPicture.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                if (selectList.size() > 0) {
-                    LocalMedia media = selectList.get(position);
-                    String pictureType = media.getPictureType();
-                    int mediaType = PictureMimeType.pictureToVideo(pictureType);
-                    switch (mediaType) {
-                        case 1:
-                            // 预览图片 可自定长按保存路径
-                            //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
-                            PictureSelector.create(PublishActivity.this).themeStyle(themeId).openExternalPreview(position, selectList);
-                            break;
-                        case 2:
-                            // 预览视频
-                            PictureSelector.create(PublishActivity.this).externalPictureVideo(media.getPath());
-                            break;
-                        case 3:
-                            // 预览音频
-                            PictureSelector.create(PublishActivity.this).externalPictureAudio(media.getPath());
-                            break;
-                    }
+        adapter.setOnItemClickListener((position, v) -> {
+            if (selectList.size() > 0) {
+                LocalMedia media = selectList.get(position);
+                String pictureType = media.getPictureType();
+                int mediaType = PictureMimeType.pictureToVideo(pictureType);
+                switch (mediaType) {
+                    case 1:
+                        // 预览图片 可自定长按保存路径
+                        //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
+                        PictureSelector.create(PublishActivity.this).themeStyle(themeId).openExternalPreview(position, selectList);
+                        break;
+                    case 2:
+                        // 预览视频
+                        PictureSelector.create(PublishActivity.this).externalPictureVideo(media.getPath());
+                        break;
+                    case 3:
+                        // 预览音频
+                        PictureSelector.create(PublishActivity.this).externalPictureAudio(media.getPath());
+                        break;
                 }
             }
         });
     }
 
-    private void setPiker(){
+    //有无车位
+    List<String> cwItems = new ArrayList<>();
+    List<String> dtItems = new ArrayList<>();
+    List<String> cxItems = new ArrayList<>();
+    List<String> lcItems = new ArrayList<>();
+    List<String> hxItems1 = new ArrayList<>();
+    List<String> hxItems2 = new ArrayList<>();
+    List<String> hxItems3 = new ArrayList<>();
+    List<String> fkfsItems = new ArrayList<>();
+    List<String> zxItems = new ArrayList<>();
+    private void getData() {
 
-        List<String> options1Items = new ArrayList<>();
-        options1Items.add("有");
-        options1Items.add("无");
-        dataBind.llCwDt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //条件选择器
-                OptionsPickerView pvOptions = new OptionsPickerBuilder(PublishActivity.this, new OnOptionsSelectListener() {
-                    @Override
-                    public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
-                        //返回的分别是三个级别的选中位置
-                        String tx = options1Items.get(options1);
-                        Toast.makeText(PublishActivity.this,"点击了"+tx,Toast.LENGTH_SHORT).show();
+        cwItems.add("无车位");
+        cwItems.add("有车位");
 
-                    }
-                }).build();
-                pvOptions.setPicker(options1Items);
-                pvOptions.show();
-            }
-        });
-    }*/
+        dtItems.add("无电梯");
+        dtItems.add("有电梯");
 
+        cxItems.add("东");
+        cxItems.add("南");
+        cxItems.add("西");
+        cxItems.add("北");
+        cxItems.add("东南");
+        cxItems.add("东北");
+        cxItems.add("西南");
+        cxItems.add("西北");
+        cxItems.add("南北");
+        cxItems.add("东西");
 
-    @Override
-    public int getLayoutId() {
-        return 0;
+        for (int i = 1;i<100;i++){
+            lcItems.add(i+"");
+        }
+
+        hxItems1.add("一室");
+        hxItems1.add("二室");
+        hxItems1.add("三室");
+        hxItems1.add("四室");
+        hxItems1.add("五室");
+        hxItems1.add("六室");
+
+        hxItems2.add("一厅");
+        hxItems2.add("二厅");
+        hxItems2.add("三厅");
+        hxItems2.add("四厅");
+        hxItems2.add("五厅");
+
+        hxItems3.add("一卫");
+        hxItems3.add("二卫");
+        hxItems3.add("三卫");
+        hxItems3.add("四卫");
+        hxItems3.add("五卫");
+
+        fkfsItems.add("押一付一");
+        fkfsItems.add("押一付三");
+        fkfsItems.add("半年付");
+        fkfsItems.add("年付");
+
+        zxItems.add("毛坯装修");
+        zxItems.add("简单装修");
+        zxItems.add("精致装修");
+        zxItems.add("豪华装修");
     }
 
-    @Override
-    public void initData(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void initView() {
-
-    }
-
-    /*//    private String zxqk = "";
     private String fwpz = "";
     private String fwld = "";
     private String ccyq = "";
     private String xqjs = "";
-    private void initView() {
-        spCommunity = dataBind.spCommunity;
+    public void initView() {
+        spCommunity = findViewById(R.id.sp_community);
         layoutParams = new FlexboxLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(35, 10, 10, 20);
         setFwpz();
-//        setZxqk();
         setfwld();
         setCzyq();
-
-        dataBind.etDetail.addTextChangedListener(wu);
-        dataBind.swTg.setOnCheckedChangeListener((buttonView, isChecked) -> model.setTg(isChecked?1:0));
-
     }
 
     TextWatcher wu = new TextWatcher() {
-
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
-
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
         }
-
         @Override
         public void afterTextChanged(Editable s) {
             int len = s.toString().length();
@@ -250,16 +292,8 @@ public class PublishActivity extends XActivity {
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择结果回调
                     selectList = PictureSelector.obtainMultipleResult(data);
-                    // 例如 LocalMedia 里面返回三种path
-                    // 1.media.getPath(); 为原图path
-                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
-                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
-                    // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
-                    for (LocalMedia media : selectList) {
-                        Log.i("图片-----》", media.getPath());
-                    }
 
-                    model.setImgs(selectList);
+//                    model.setImgs(selectList);
                     adapter.setList(selectList);
                     adapter.notifyDataSetChanged();
                     break;
@@ -267,40 +301,14 @@ public class PublishActivity extends XActivity {
         }
     }
 
-    //获得绑定小区列表
-    public void setData(List<UserBean> doorData) {
-        if(doorData==null||doorData.size()==0){
-            CommonUtils.showToast(this,"您目前没有绑定小区");
-            dataBind.spCommunity.setVisibility(View.GONE);
-        }else{
-            dataBind.spCommunity.setVisibility(View.VISIBLE);
-        }
-        spCommunity.setAdapter(new SelectCommunityAdapter(this,doorData));
-        spCommunity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                model.setXqmc(doorData.get(position).getName());
-                model.setC_id(doorData.get(position).getC_id());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
-    public void onFinishLoad() {
-    }
-
     public void hindEdit() {
-        dataBind.llShuru.setVisibility(View.GONE);
-        dataBind.llXuanze.setVisibility(View.VISIBLE);
+        llShuru.setVisibility(View.GONE);
+        llXuanze.setVisibility(View.VISIBLE);
     }
 
     public void hindSelect() {
-        dataBind.llShuru.setVisibility(View.VISIBLE);
-        dataBind.llXuanze.setVisibility(View.GONE);
+        llShuru.setVisibility(View.VISIBLE);
+        llXuanze.setVisibility(View.GONE);
     }
 
     private Set<TextView> setCzyq;
@@ -321,7 +329,7 @@ public class PublishActivity extends XActivity {
             });
             textView.setBackgroundResource(R.drawable.select_tab);
             textView.setLayoutParams(layoutParams);
-            dataBind.flBoxCcyq.addView(textView);
+            flBoxCcyq.addView(textView);
         }
     }
 
@@ -343,7 +351,7 @@ public class PublishActivity extends XActivity {
             });
             textView.setBackgroundResource(R.drawable.select_tab);
             textView.setLayoutParams(layoutParams);
-            dataBind.flBoxFwld.addView(textView);
+            flBoxFwld.addView(textView);
         }
     }
 
@@ -382,19 +390,13 @@ public class PublishActivity extends XActivity {
             });
             textView.setBackgroundResource(R.drawable.select_tab);
             textView.setLayoutParams(layoutParams);
-            dataBind.flBoxFwpz.addView(textView);
+            flBoxFwpz.addView(textView);
         }
 
     }
 
     public void onSubmit(){
-        //装修情况
-//        for (TextView tv : listZxqk){
-//            if (tv.isSelected()){
-//                zxqk = tv.getText().toString().trim();
-//                break;
-//            }
-//        }
+
         //房屋配置
         for (TextView tv : setFwpz){
             fwpz = fwpz+tv.getText().toString().trim()+",";
@@ -410,7 +412,7 @@ public class PublishActivity extends XActivity {
             }
         }
         //详情介绍
-        xqjs = dataBind.etDetail.getText().toString().trim();
+        xqjs = etDetail.getText().toString().trim();
         //去掉最后一个逗号
         if (fwpz.length()>0){
             fwpz = fwpz.substring(0,fwpz.length()-1);
@@ -424,8 +426,10 @@ public class PublishActivity extends XActivity {
         }
 
         Log.e("tag","房屋配置："+fwpz+"房屋亮点："+fwld+"出租要求："+ccyq+"详情介绍："+xqjs);
-        p.submit(fwpz,fwld,ccyq,xqjs);
-    }*/
+//        p.submit(fwpz,fwld,ccyq,xqjs);
+
+        onDataSubmit();
+    }
 
     //点击键盘以外的地方，键盘消失
     @Override
@@ -466,4 +470,34 @@ public class PublishActivity extends XActivity {
         return false;
     }
 
+
+    //提交网络数据
+    private void onDataSubmit() {
+
+    }
+
+
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.tv_hx:
+
+                break;
+            case R.id.tv_cx:break;
+            case R.id.tv_zx:break;
+            case R.id.tv_cw:break;
+            case R.id.tv_dt:break;
+            case R.id.tv_submit:break;
+            case R.id.tv_fkfs:break;
+            case R.id.bt_Edit:
+                hindSelect();
+                break;
+            case R.id.bt_select:
+                hindEdit();
+                break;
+        }
+    }
+
+    public void onBack(View v){
+        finish();
+    }
 }

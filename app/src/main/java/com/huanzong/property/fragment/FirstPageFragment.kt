@@ -1,12 +1,15 @@
 package com.huanzong.property.fragment
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.huanzong.property.R
+import com.huanzong.property.activity.login.LoginActivity
 import com.huanzong.property.database.DataBase
 import com.huanzong.property.fragment.firstpage.TongJiData
 import com.huanzong.property.fragment.firstpage.TongJiDataBase
@@ -22,13 +25,37 @@ class FirstPageFragment : Fragment(){
     fun getData(){
         HttpServer.getAPIService().tongji().enqueue(object : Callback<DataBase<TongJiDataBase>>{
             override fun onFailure(call: Call<DataBase<TongJiDataBase>>, t: Throwable) {
+                Log.e("tag","call"+call)
+                    val dialog = SweetAlertDialog(activity)
+                    dialog.contentText = "您的账号已在其他地方登录，请重新登录"
+                    dialog.titleText = "重复登录"
+                    dialog.confirmText = "确定"
+                    dialog.cancelText = "取消"
+                    dialog.setConfirmClickListener {
+                        SharedPreferencesUtil.addToken(activity,null)
+                        activity?.startActivity(Intent(activity,LoginActivity::class.java))
+                        activity?.finish() }
+                    dialog.show()
 
             }
             override fun onResponse(call: Call<DataBase<TongJiDataBase>>, response: Response<DataBase<TongJiDataBase>>) {
-                var data = response.body()?.data?.data
-                if (data != null) {
-                    showData(data)
+                if (response.body()?.code==10001){
+                    val dialog = SweetAlertDialog(activity,SweetAlertDialog.ERROR_TYPE)
+                    dialog.contentText = "您的账号已在其他地方登录，请重新登录"
+                    dialog.titleText = "重复登录"
+                    dialog.confirmText = "确定"
+                    dialog.cancelText = "取消"
+                    dialog.setConfirmClickListener {
+                        activity?.startActivity(Intent(activity,LoginActivity::class.java))
+                        activity?.finish() }
+                    dialog.show()
+                }else{
+                    var data = response.body()?.data?.data
+                    if (data != null) {
+                        showData(data)
+                    }
                 }
+
             }
         })
     }
@@ -45,6 +72,7 @@ class FirstPageFragment : Fragment(){
         getData()
     }
     fun showData(data : TongJiData){
+
         tv_total?.text = data.zrs.toString()
         tv_wrzyh?.text = "未认证用户("+data.wrzyh.toString()+")"
         tv_wrzfw?.text = "未认证房屋("+data.wshfw.toString()+")"

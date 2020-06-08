@@ -52,7 +52,6 @@
         </RadioGroup>
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/publish"
             android:padding="10dp"
             android:layout_alignParentRight="true"

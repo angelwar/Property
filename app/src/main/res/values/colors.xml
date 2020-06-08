@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FF0183FD</color>
+    <color name="colorTheme">#FF0183FD</color>
     <color name="colorPrimaryDark">#FF0183FD</color>
     <color name="colorAccent">#FF0183FD</color>
     <color name="awed">#111</color>
@@ -52,6 +53,7 @@
     <color name="black">#000</color>
     <color name="black_282626">#282626</color>
     <color name="gray_dc">#b5b5b5</color>
+    <color name="black_333333">#333333</color>
 
 
 

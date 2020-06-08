@@ -22,4 +22,6 @@
     <dimen name="sp_s_24">24sp</dimen>
     <dimen name="sp_s_26">26sp</dimen>
     <dimen name="sp_s_28">28sp</dimen>
+    <dimen name="sale_house_edit">12sp</dimen>
+
 </resources>

@@ -1,9 +1,12 @@
 package com.huanzong.property.database;
 
+import com.google.gson.annotations.SerializedName;
+
 public class DataBase<T> {
 
     private int code;
     private String msg;
+    @SerializedName("data")
     private T data;
 
     public int getCode() {
