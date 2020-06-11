@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.huanzong.property.R
-import com.huanzong.property.activity.login.LoginActivity
 import com.huanzong.property.database.DataBase
 import com.huanzong.property.http.HttpServer
 import com.huanzong.property.util.SharedPreferencesUtil

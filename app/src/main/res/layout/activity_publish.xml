@@ -30,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:text="租房发布"
             android:textColor="@color/colorWhite"
             android:gravity="center"/>
     </LinearLayout>
@@ -78,7 +79,6 @@
                         android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:text="@={vm.xqmc}"
                         android:hint="请输入小区名称"/>
                     <Button
                         android:id="@+id/bt_select"
@@ -108,14 +108,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="请选择小区: "/>
-                    <!--<EditText
-                        android:id="@+id/et_community"
-                        android:paddingLeft="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        android:text="@={vm.xqmc}"
-                        android:hint="请选择小区"/>-->
 
                     <Spinner
                         android:id="@+id/sp_community"
@@ -182,13 +174,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"/>
                     <EditText
+                        android:id="@+id/et_dong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_s_14"
                         android:minWidth="40dp"
                         android:digits="@string/dong_string"
                         android:gravity="center"
-                        android:text="@={vm.dong}"
                         android:maxLength="3"
                         android:singleLine="true"
                         android:background="@drawable/shape_circle_gray"
@@ -202,12 +194,12 @@
                         android:textColor="@color/colorBlack"
                         android:text="栋"/>
                     <EditText
+                        android:id="@+id/et_danyuan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_s_14"
                         android:minWidth="40dp"
                         android:gravity="center"
-                        android:text="@={vm.unit}"
                         android:maxLength="2"
                         android:inputType="number"
                         android:singleLine="true"
@@ -220,12 +212,12 @@
                         android:textColor="@color/colorBlack"
                         android:text="单元"/>
                     <EditText
+                        android:id="@+id/et_ceng"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_s_16"
                         android:minWidth="40dp"
                         android:gravity="center"
-                        android:text="@={vm.number}"
                         android:maxLength="2"
                         android:inputType="number"
                         android:singleLine="true"
@@ -238,12 +230,12 @@
                         android:textColor="@color/colorBlack"
                         android:text="层"/>
                     <EditText
+                        android:id="@+id/et_hao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_s_16"
                         android:minWidth="40dp"
                         android:gravity="center"
-                        android:text="@={vm.room}"
                         android:maxLength="2"
                         android:inputType="number"
                         android:singleLine="true"
@@ -270,20 +262,20 @@
                         android:layout_weight="1"
                         android:onClick="onClick"
                         android:layout_height="match_parent"
-                        android:text="@{vm.hx}"
+                        android:text="户型"
                         android:background="@color/white"/>
 
                     <TextView
                         android:layout_marginLeft="1dp"
                         android:layout_marginRight="1dp"
-                        android:id="@+id/tv_cx"
+                        android:id="@+id/tv_cw"
                         android:gravity="center"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:onClick="onClick"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:text="@{vm.cx}"/>
+                        android:text="车位"/>
 
                     <TextView
                         android:id="@+id/tv_zx"
@@ -293,7 +285,7 @@
                         android:onClick="onClick"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:text="@{vm.zx}"/>
+                        android:text="装修"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -304,14 +296,14 @@
                     android:layout_height="40dp"
                     android:background="@color/gray_dc">
                     <TextView
-                        android:id="@+id/tv_cw"
+                        android:id="@+id/tv_cx"
                         android:gravity="center"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:onClick="onClick"
                         android:layout_height="match_parent"
                         android:background="@color/colorWhite"
-                        android:text="@{vm.cw}"/>
+                        android:text="朝向"/>
 
                     <TextView
                         android:layout_marginLeft="1dp"
@@ -323,16 +315,7 @@
                         android:onClick="onClick"
                         android:layout_height="match_parent"
                         android:background="@color/colorWhite"
-                        android:text="@{vm.dt}"/>
-                    <!--<TextView
-                        android:id="@+id/tv_lx"
-                        android:gravity="center"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:onClick="onClick"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorWhite"
-                        android:text="@{vm.fwlx}"/>-->
+                        android:text="电梯"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -356,7 +339,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:text="@={vm.fy}"
                         android:inputType="number"
                         android:hint="请输入租金，单位元"/>
 
@@ -381,33 +363,10 @@
                         android:paddingLeft="10dp"
                         android:layout_width="0dp"
                         android:layout_weight="1"
+                        android:text="押一付三"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:text="@={vm.fkfs}" />
+                        android:background="@color/white" />
                 </LinearLayout>
-                <!--<LinearLayout
-                    android:padding="5dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_height="50dp"
-                    android:background="@drawable/shape_white_corner">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="租金包含费用: "/>
-                    <EditText
-                        android:id="@+id/et_zjbhfy"
-                        android:paddingLeft="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        android:text="@={vm.zjbhfy}"
-                        android:hint="例如水电费，网费"/>
-                </LinearLayout>-->
 
                 <LinearLayout
                     android:padding="5dp"
@@ -430,33 +389,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:text="@={vm.lxrxm}"
                         android:hint="请输入姓名"/>
                 </LinearLayout>
 
-                <!--   <LinearLayout
-                       android:padding="5dp"
-                       android:layout_marginTop="1dp"
-                       android:layout_marginLeft="5dp"
-                       android:layout_marginRight="5dp"
-                       android:layout_width="match_parent"
-                       android:orientation="horizontal"
-                       android:gravity="center_vertical"
-                       android:layout_height="50dp"
-                       android:background="@drawable/shape_white_corner">
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="联系人身份: "/>
-                       <EditText
-                           android:id="@+id/et_lxrsf"
-                           android:paddingLeft="10dp"
-                           android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:background="@color/white"
-                           android:text="@={vm.lxrsf}"
-                           android:hint="个人房东/中介"/>
-                   </LinearLayout>-->
                 <LinearLayout
                     android:padding="5dp"
                     android:layout_marginTop="1dp"
@@ -479,7 +414,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/white"
-                        android:text="@={vm.sjhm}"
                         android:hint="请输入手机号码"/>
                 </LinearLayout>
                 <LinearLayout
@@ -501,24 +435,13 @@
                         android:textColor="@color/white"
                         android:showText="true"
                         android:id="@+id/sw_tg"
-                        android:textOn="是"
+                         android:textOn="是"
                         android:textOff="否"
                         android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
-                <!--  <TextView
-                      android:layout_marginLeft="10dp"
-                      android:layout_width="match_parent"
-                      android:layout_height="40dp"
-                      android:gravity="center_vertical"
-                      android:textColor="@color/black_333333"
-                      android:text="装修情况"/>
-                  <com.google.android.flexbox.FlexboxLayout
-                      android:id="@+id/fl_box_zxqk"
-                      app:flexWrap="wrap"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"/>-->
+
                 <TextView
                     android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
@@ -577,17 +500,21 @@
                     android:focusableInTouchMode="true"
                     android:background="@drawable/bg_edit"
                     android:layout_marginBottom="40dp"/>
+
+                <TextView
+                    android:id="@+id/tv_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:text="提交"
+                    android:textSize="@dimen/sp_s_16"
+                    android:textColor="@color/colorWhite"
+                    android:gravity="center"
+                    android:background="@drawable/shape_button"
+                    android:onClick="onClick"/>
             </LinearLayout>
+
+
         </ScrollView>
-        <TextView
-            android:id="@+id/tv_submit"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
-            android:text="提交"
-            android:textSize="@dimen/sp_s_16"
-            android:textColor="@color/colorWhite"
-            android:gravity="center"
-            android:background="@drawable/shape_button"
-            android:onClick="onClick"/>
+
     </LinearLayout>

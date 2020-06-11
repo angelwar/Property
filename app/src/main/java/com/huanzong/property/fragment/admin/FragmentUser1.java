@@ -2,7 +2,6 @@ package com.huanzong.property.fragment.admin;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.huanzong.property.R;
 import com.huanzong.property.database.DataBase;
+import com.huanzong.property.fragment.admin.data.User;
+import com.huanzong.property.fragment.admin.data.UserData;
+import com.huanzong.property.fragment.admin.data.UserDataBase;
 import com.huanzong.property.http.HttpServer;
 import com.huanzong.property.util.PocketSwipeRefreshLayout;
 import com.huanzong.property.util.SpacesItemDecoration;
@@ -30,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FragmentUser1 extends Fragment {
+public class FragmentUser1 extends Fragment implements UserAdapter.onRefreshListener {
     RecyclerView rv;
     TextView tv_null;
 
@@ -43,8 +44,7 @@ public class FragmentUser1 extends Fragment {
         sw_sale = view.findViewById(R.id.sw_sale);
         sw_sale.setOnRefreshListener(() ->{
             page = 1;
-            //清空数据再次刷新
-            userAdapter.setDataLists(null);
+
             setListData();
                 }
         );
@@ -59,7 +59,7 @@ public class FragmentUser1 extends Fragment {
         tv_null = view.findViewById(R.id.tv_null);
         userList = new ArrayList<>();
         userAdapter = new UserAdapter(getActivity(),rv,userList,R.layout.item_user);
-
+        userAdapter.setLin(this);
         userAdapter.isLoadMore(true);//开启加载更多功能,默认关闭
         userAdapter.setOnLoadMoreListener(new XRecyclerViewAdapter.OnLoadMoreListener() {
             @Override
@@ -100,7 +100,11 @@ public class FragmentUser1 extends Fragment {
                 .enqueue(new Callback<DataBase<UserDataBase<UserData<User>>>>() {
             @Override
             public void onResponse(Call<DataBase<UserDataBase<UserData<User>>>> call, Response<DataBase<UserDataBase<UserData<User>>>> response) {
-                sw_sale.setRefreshing(false);
+                if (sw_sale.isRefreshing()==true){
+                    //清空数据再次刷新
+                    userAdapter.setDataLists(null);
+                    sw_sale.setRefreshing(false);
+                }
                 if (response.body().getCode()==1) {
                     List<User> list = response.body().getData().getUsers().getData();
                     if (list.size()==0){
@@ -108,6 +112,9 @@ public class FragmentUser1 extends Fragment {
                     }
                     //page = 当前页+1
 //                    userList.addAll(list);
+                    if (page ==1){
+                        userAdapter.setDataLists(null);
+                    }
                     lastpage = response.body().getData().getUsers().getLast_page();
                     if (page <= lastpage){
                         page = response.body().getData().getUsers().getCurrent_page()+1;
@@ -135,5 +142,18 @@ public class FragmentUser1 extends Fragment {
     private void hideNullView(){
         rv.setVisibility(View.VISIBLE);
         tv_null.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        page = 1;
+        lastpage = 1;
+    }
+
+    @Override
+    public void onRefresh() {
+        page =1;
+        setListData();
     }
 }

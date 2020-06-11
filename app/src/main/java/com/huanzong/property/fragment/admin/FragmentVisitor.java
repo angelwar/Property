@@ -2,7 +2,6 @@ package com.huanzong.property.fragment.admin;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,8 @@ import com.huanzong.property.R;
 import com.huanzong.property.adapter.VisitorAdapter;
 import com.huanzong.property.database.DataBase;
 import com.huanzong.property.database.Visitor;
+import com.huanzong.property.fragment.admin.data.UserData;
+import com.huanzong.property.fragment.admin.data.UserDataBase;
 import com.huanzong.property.http.HttpServer;
 import com.huanzong.property.util.PocketSwipeRefreshLayout;
 import com.huanzong.property.util.SpacesItemDecoration;
@@ -42,7 +43,6 @@ public class FragmentVisitor extends Fragment {
         sw_sale.setOnRefreshListener(() ->{
                     page = 1;
                     //清空数据再次刷新
-                    userAdapter.setDataLists(null);
                     setListData();
                 }
         );
@@ -93,11 +93,17 @@ public class FragmentVisitor extends Fragment {
         HttpServer.getAPIService().onVisiter(hashMap).enqueue(new Callback<DataBase<UserDataBase<UserData<Visitor>>>>() {
             @Override
             public void onResponse(Call<DataBase<UserDataBase<UserData<Visitor>>>> call, Response<DataBase<UserDataBase<UserData<Visitor>>>> response) {
-                sw_sale.setRefreshing(false);
+                if (sw_sale.isRefreshing()==true){
+                    //清空数据再次刷新
+                    sw_sale.setRefreshing(false);
+                }
                 if (response.body().getCode()==1) {
                     List<Visitor> list = response.body().getData().getUsers().getData();
                     if (list.size()==0){
                         showNullView();return;
+                    }
+                    if (page ==1){
+                        userAdapter.setDataLists(null);
                     }
                     lastpage = response.body().getData().getUsers().getLast_page();
                     if (page <= lastpage){
@@ -125,5 +131,12 @@ public class FragmentVisitor extends Fragment {
     private void hideNullView(){
         rv.setVisibility(View.VISIBLE);
         tv_null.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        page = 1;
+        lastpage = 1;
     }
 }

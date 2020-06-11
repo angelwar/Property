@@ -1,17 +1,18 @@
 package com.huanzong.property.http;
 
 import com.huanzong.property.activity.login.LoginTokenData;
+import com.huanzong.property.database.CommunityDataBase;
 import com.huanzong.property.database.DataBase;
+import com.huanzong.property.database.JuheBean;
 import com.huanzong.property.database.Visitor;
 import com.huanzong.property.database.ZushouBean1;
-import com.huanzong.property.fragment.admin.User;
-import com.huanzong.property.fragment.admin.UserData;
-import com.huanzong.property.fragment.admin.UserDataBase;
+import com.huanzong.property.fragment.admin.data.User;
+import com.huanzong.property.fragment.admin.data.UserData;
+import com.huanzong.property.fragment.admin.data.UserDataBase;
 import com.huanzong.property.fragment.firstpage.TongJiDataBase;
 import com.huanzong.property.fragment.sale.SaleData;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -21,8 +22,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
-import rx.Observable;
 
 public interface APIService {
 
@@ -80,6 +79,9 @@ public interface APIService {
     @POST("/api/admin/User/index")
     Call<DataBase<UserDataBase<UserData<User>>>> onUserList(@PartMap HashMap<String,Integer> map);
 
+    @POST("/api/admin/User/index")
+    Call<DataBase<UserDataBase<UserData<User>>>> onUserMobile(@Query("mobile")String mobile);
+
     /**
      *
      * @param oid 用户id
@@ -131,6 +133,9 @@ public interface APIService {
     @Multipart
     @POST("/api/admin/House/index")
     Call<DataBase<UserDataBase<UserData<SaleData>>>> onGetHouse(@PartMap HashMap<String,Integer> map);
+
+    @POST("/api/admin/House/index")
+    Call<DataBase<UserDataBase<UserData<SaleData>>>> onSearchHouse(@Query("mobile")String mobile);
 
     /**
      * 删除租售信息
@@ -191,4 +196,18 @@ public interface APIService {
 
     @GET("/portal/house/getHouseone.html")
     Call<DataBase<ZushouBean1>> getHouseone(@Query("id")int id);
+
+    /**
+     * 获取绑定小区列表
+     * @return
+     */
+    @GET("user/register/getCommunityList.html")
+    Call<CommunityDataBase> postAddressList(@Query("uid")int uid);
+
+    //    上传图片
+    @POST("/portal/house/thumb.html")
+    Call<JuheBean> loadPicture(@Body RequestBody body);
+
+    @POST("/portal/house/setHouse.html")
+    Call<JuheBean> setHouse(@Body RequestBody data);
 }

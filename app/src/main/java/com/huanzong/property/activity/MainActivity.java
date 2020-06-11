@@ -2,7 +2,6 @@ package com.huanzong.property.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
@@ -12,14 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.huanzong.property.R;
-import com.huanzong.property.activity.login.LoginActivity;
 import com.huanzong.property.fragment.AdministrationFragment;
 import com.huanzong.property.fragment.CenterFragment;
 import com.huanzong.property.fragment.FirstPageFragment;
 import com.huanzong.property.fragment.SaleFragment;
-import com.huanzong.property.http.HttpServer;
 import com.huanzong.property.util.SharedPreferencesUtil;
-import com.youth.xframe.widget.XToast;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 

@@ -16,6 +16,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.huanzong.property.R;
 import com.huanzong.property.activity.PublishActivity;
+import com.huanzong.property.activity.PublishSaleActivity;
+import com.huanzong.property.activity.SearchHouseActivity;
 import com.huanzong.property.fragment.sale.FragmentDealYuyue;
 import com.huanzong.property.fragment.sale.FragmentNoYuyue;
 import com.huanzong.property.fragment.sale.FragmentOrderListAdapter;
@@ -36,30 +38,33 @@ public class SaleFragment extends Fragment {
     int index = 0;
 
     private TextView publish;
+    private TextView tv_search;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View content = inflater.inflate(R.layout.fragment_main_2,null);
         viewPager = content.findViewById(R.id.order_viewpager);
         tableLayout = content.findViewById(R.id.order_tab);
-        publish = content.findViewById(R.id.publish);
-        publish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SweetAlertDialog(getActivity()).setTitleText("请选择租售方式")
-                        .setCancelText("发布租房")
-                        .setConfirmText("发布售房")
-                        .setCancelClickListener(sweetAlertDialog ->{
-                            getActivity().startActivity(new Intent(getActivity(), PublishActivity.class));
-                            sweetAlertDialog.dismiss();
-                        })
-                        .setConfirmClickListener(sweetAlertDialog -> {
-                            getActivity().startActivity(new Intent(getActivity(), PublishActivity.class));
-                            sweetAlertDialog.dismiss();
-                        }).show();
+        tv_search = content.findViewById(R.id.tv_search);
+        tv_search.setOnClickListener(v -> getActivity().startActivity(new Intent(getActivity(), SearchHouseActivity.class)));
+        publish = content.findViewById(R.id.tv_publish);
 
-            }
+        publish.setOnClickListener(v -> {
+            SweetAlertDialog s = new SweetAlertDialog(getActivity()).setTitleText("请选择租售方式")
+                    .setCancelText("发布租房")
+                    .setConfirmText("发布售房")
+                    .setCancelClickListener(sweetAlertDialog -> {
+                        getActivity().startActivity(new Intent(getActivity(), PublishActivity.class));
+                        sweetAlertDialog.dismiss();
+                    })
+                    .setConfirmClickListener(sweetAlertDialog -> {
+                        getActivity().startActivity(new Intent(getActivity(), PublishSaleActivity.class));
+                        sweetAlertDialog.dismiss();
+                    });
+            s.show();
+            s.setCanceledOnTouchOutside(true);
         });
+
 
         Bundle bundle = getArguments();
         if (bundle!=null) {
@@ -106,7 +111,7 @@ public class SaleFragment extends Fragment {
         fragments.add(fragmentZushou2);
         fragments.add(fragmentZushou3);
 
-        adapter = new FragmentOrderListAdapter(getActivity().getSupportFragmentManager(),fragments, new String[]{"未认证", "已上架", "已完成", "已预约","预约中"});
+        adapter = new FragmentOrderListAdapter(getActivity().getSupportFragmentManager(),fragments, new String[]{"未审核", "已上架", "已完成", "已预约","预约中"});
         viewPager.setAdapter(adapter);
         tableLayout.setupWithViewPager(viewPager);
 

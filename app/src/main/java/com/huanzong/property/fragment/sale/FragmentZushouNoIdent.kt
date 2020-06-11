@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.huanzong.property.R
 import com.huanzong.property.database.DataBase
-import com.huanzong.property.fragment.admin.UserData
-import com.huanzong.property.fragment.admin.UserDataBase
+import com.huanzong.property.fragment.admin.data.UserData
+import com.huanzong.property.fragment.admin.data.UserDataBase
 import com.huanzong.property.http.HttpServer
 import com.huanzong.property.util.PocketSwipeRefreshLayout
 import com.huanzong.property.util.SharedPreferencesUtil
@@ -61,19 +61,6 @@ class FragmentZushouNoIdent : Fragment(){
                     return
                 }
                 if (page > lastpage) {
-//                    Log.e("tag","onLoadMore  11")
-//
-//                    if (SharedPreferencesUtil.isMove(activity)){
-//                        Handler().postDelayed({
-//                            page = 1
-//                            //清空数据再次刷新
-//                            adapter?.setDataLists(null)
-//                            setListData()
-//                            SharedPreferencesUtil.addisMove(activity,false)
-//                        }, 1000)
-//
-//                        return
-//                    }
                     //因直接userAdapter.showLoadComplete()，会显示报错，延时2秒再显示RecyclerView is computing a layout or scrolling
                     Handler().postDelayed({
                         adapter?.showLoadComplete()//没有更多数据了
@@ -111,6 +98,10 @@ class FragmentZushouNoIdent : Fragment(){
                                     showNullView()
                                     return
                                 }
+                                if (page ==1){
+                                    adapter?.dataLists = null
+                                }
+
                                 lastpage = userList.last_page!!
                                 if(page<=lastpage){
                                     page++
@@ -143,5 +134,11 @@ class FragmentZushouNoIdent : Fragment(){
     fun hideNullView(){
         rv?.visibility = View.VISIBLE
         tv_null?.visibility = View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        page = 1
+        lastpage = 1
     }
 }

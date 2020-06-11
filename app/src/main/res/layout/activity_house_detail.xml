@@ -254,15 +254,31 @@
                 android:layout_height="wrap_content"
                 android:text="不养宠物"/>
         </LinearLayout>-->
-<!--    <TextView-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:layout_marginLeft="5dp"-->
-<!--        android:layout_marginRight="5dp"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textColor="@color/black_282626"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="房屋介绍"/>-->
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textSize="20sp"
+        android:textColor="@color/black_282626"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="房屋介绍"/>
+
+        <TextView
+            android:id="@+id/tv_xqjs"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/fltag_fwpz"
+            app:flexWrap="wrap"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/tv_zs"
         android:visibility="gone"
@@ -325,24 +341,25 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:background="@drawable/shape_yellow_line"
-            android:text="已出售"
+            android:text="出售"
             android:textColor="@color/color_red"
             android:textSize="@dimen/sp_s_16"/>
+
         <TextView
-            android:onClick="onClick"
-            android:layout_marginLeft="@dimen/dp_s_10"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
             android:id="@+id/bt_zu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_s_10"
             android:background="@drawable/shape_yellow_line"
-            android:text="已出租"
+            android:onClick="onClick"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:text="出租"
             android:textColor="@color/color_red"
-            android:textSize="@dimen/sp_s_16"/>
+            android:textSize="@dimen/sp_s_16" />
 
         <TextView
             android:onClick="onClick"

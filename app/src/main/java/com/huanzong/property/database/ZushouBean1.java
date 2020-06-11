@@ -26,6 +26,10 @@ public class ZushouBean1 implements Serializable {
     private String jtsd;
     private int status;
     private int zs;
+
+    private String fwpz;
+    private String xxjs;
+    private String czyq;
     private String hx;
     private String price;
 
@@ -37,6 +41,49 @@ public class ZushouBean1 implements Serializable {
         this.price = price;
     }
 
+    public String getFwld() {
+        return fwld;
+    }
+
+    public void setFwld(String fwld) {
+        this.fwld = fwld;
+    }
+
+    private String fwld;
+
+
+    public String getCwStr() {
+        return cwStr;
+    }
+
+    public void setCwStr(String cwStr) {
+        this.cwStr = cwStr;
+    }
+
+    public String getFwpz() {
+        return fwpz;
+    }
+
+    public void setFwpz(String fwpz) {
+        this.fwpz = fwpz;
+    }
+
+    public String getXxjs() {
+        return xxjs;
+    }
+
+    public void setXxjs(String xxjs) {
+        this.xxjs = xxjs;
+    }
+
+    public String getCzyq() {
+        return czyq;
+    }
+
+    public void setCzyq(String czyq) {
+        this.czyq = czyq;
+    }
+
     public String getHx() {
         return hx;
     }
@@ -46,7 +93,6 @@ public class ZushouBean1 implements Serializable {
     }
 
     private List<ImgBean> thumb;
-
 
     public String getCxStr() {
         switch (cx) {
@@ -80,7 +126,7 @@ public class ZushouBean1 implements Serializable {
             case 9:
                 cxStr = "东西";
                 break;
-                default:cxStr = "东";
+            default:cxStr = "东";
                 break;
         }
         return cxStr;
@@ -90,15 +136,6 @@ public class ZushouBean1 implements Serializable {
         this.cxStr = cxStr;
     }
 
-//    public ZuNextData getData() {
-//        return data;
-//    }
-
-//    public void setData(ZuNextData data) {
-//        this.data = data;
-//    }
-
-//    private ZuNextData data;
 
     public int getUid() {
         return uid;
@@ -124,7 +161,6 @@ public class ZushouBean1 implements Serializable {
         this.addtime = addtime;
     }
 
-
     public String getXqmc() {
         return xqmc;
     }
@@ -140,7 +176,6 @@ public class ZushouBean1 implements Serializable {
     public void setJzmj(String jzmj) {
         this.jzmj = jzmj;
     }
-
 
     public String getFwlx() {
         return fwlx;
@@ -158,7 +193,6 @@ public class ZushouBean1 implements Serializable {
         this.cx = cx;
     }
 
-
     public String getLc() {
         return lc;
     }
@@ -167,7 +201,6 @@ public class ZushouBean1 implements Serializable {
         this.lc = lc;
     }
 
-
     public int getCw() {
         return cw;
     }
@@ -175,7 +208,6 @@ public class ZushouBean1 implements Serializable {
     public void setCw(int cw) {
         this.cw = cw;
     }
-
 
     public int getDt() {
         return dt;

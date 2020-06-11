@@ -9,12 +9,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.huanzong.property.R
-import com.huanzong.property.activity.login.LoginActivity
+import com.huanzong.property.activity.LoginActivity
 import com.huanzong.property.database.DataBase
 import com.huanzong.property.fragment.firstpage.TongJiData
 import com.huanzong.property.fragment.firstpage.TongJiDataBase
 import com.huanzong.property.http.HttpServer
-import com.huanzong.property.util.SharedPreferencesUtil
+import com.youth.xframe.widget.XToast
 import kotlinx.android.synthetic.main.fragment_main_0.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,20 +25,12 @@ class FirstPageFragment : Fragment(){
     fun getData(){
         HttpServer.getAPIService().tongji().enqueue(object : Callback<DataBase<TongJiDataBase>>{
             override fun onFailure(call: Call<DataBase<TongJiDataBase>>, t: Throwable) {
-                Log.e("tag","call"+call)
-                    val dialog = SweetAlertDialog(activity)
-                    dialog.contentText = "您的账号已在其他地方登录，请重新登录"
-                    dialog.titleText = "重复登录"
-                    dialog.confirmText = "确定"
-                    dialog.cancelText = "取消"
-                    dialog.setConfirmClickListener {
-                        SharedPreferencesUtil.addToken(activity,null)
-                        activity?.startActivity(Intent(activity,LoginActivity::class.java))
-                        activity?.finish() }
-                    dialog.show()
-
+                Log.e("tag",t.toString())
+                sw_refresh?.isRefreshing = false
+                XToast.error("获取首页数据失败，请检查网络！")
             }
             override fun onResponse(call: Call<DataBase<TongJiDataBase>>, response: Response<DataBase<TongJiDataBase>>) {
+                sw_refresh?.isRefreshing = false
                 if (response.body()?.code==10001){
                     val dialog = SweetAlertDialog(activity,SweetAlertDialog.ERROR_TYPE)
                     dialog.contentText = "您的账号已在其他地方登录，请重新登录"
@@ -46,8 +38,9 @@ class FirstPageFragment : Fragment(){
                     dialog.confirmText = "确定"
                     dialog.cancelText = "取消"
                     dialog.setConfirmClickListener {
-                        activity?.startActivity(Intent(activity,LoginActivity::class.java))
-                        activity?.finish() }
+                        activity?.startActivity(Intent(activity, LoginActivity::class.java))
+                        activity?.finish()
+                    }
                     dialog.show()
                 }else{
                     var data = response.body()?.data?.data
@@ -60,10 +53,10 @@ class FirstPageFragment : Fragment(){
         })
     }
 
-
     var content : View? =null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         content = inflater.inflate(R.layout.fragment_main_0,null)
+
         return content
     }
 
@@ -73,6 +66,7 @@ class FirstPageFragment : Fragment(){
     }
     fun showData(data : TongJiData){
 
+        sw_refresh?.setOnRefreshListener { getData() }
         tv_total?.text = data.zrs.toString()
         tv_wrzyh?.text = "未认证用户("+data.wrzyh.toString()+")"
         tv_wrzfw?.text = "未认证房屋("+data.wshfw.toString()+")"

@@ -15,6 +15,7 @@
             android:src="@mipmap/shangquan"
             android:layout_gravity="center"/>
         <TextView
+
             android:layout_marginLeft="10dp"
             android:id="@+id/tv_user_community"
             android:layout_width="0dp"

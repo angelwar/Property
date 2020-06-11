@@ -13,9 +13,9 @@
         <RadioGroup
             android:id="@+id/rg_change"
             android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:padding="5dp"
-            android:layout_centerHorizontal="true"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
             android:checkedButton="@id/rt_all"
             android:orientation="horizontal">
@@ -52,35 +52,15 @@
         </RadioGroup>
 
         <TextView
-            android:id="@+id/publish"
+            android:id="@+id/tv_search"
             android:padding="10dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:text="发布"/>
+            android:text="搜索"/>
     </RelativeLayout>
-
-<!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-<!--        android:id="@+id/swipe_community"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical">-->
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/rv_title_house"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="50dp"/>-->
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/rv_house"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"/>-->
-<!--        </LinearLayout>-->
-<!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/order_tab"
             android:layout_width="match_parent"
@@ -89,11 +69,33 @@
             app:tabTextColor="@color/colorGrayLi"
             app:tabIndicatorColor="#f00"
             app:tabSelectedTextColor="@color/black" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/order_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"/>
+
+        <FrameLayout
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_circle"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/white"
+                android:id="@+id/tv_publish"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="发布\n房源"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+        </FrameLayout>
+    </RelativeLayout>
+
 
 
 </LinearLayout>

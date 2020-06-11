@@ -3,8 +3,11 @@ package com.huanzong.property.http;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.huanzong.property.MyApplication;
 import com.huanzong.property.base.Global;
+import com.huanzong.property.util.NullOnEmptyConverterFactory;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -73,9 +76,35 @@ public class HttpServer {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Global.BASE_API) //设置网络请求的Url地址
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create()) //设置数据解析器
+//                .addConverterFactory(new NullOnEmptyConverterFactory()) //必须是要第一个//设置为空也能解析
+                .addConverterFactory(GsonConverterFactory.create(buildGson())) //设置数据解析器
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         return retrofit.create(APIService.class);
+    }
+
+    /**
+     * 增加后台返回""和"null"的处理
+     * 1.int=>0
+     * 2.double=>0.00
+     * 3.long=>0L
+     *
+     * @return
+     */
+
+    private static Gson gson;
+    public static Gson buildGson() {
+        if (gson == null) {
+            gson = new GsonBuilder()
+                    .registerTypeAdapter(Integer.class, new IntegerDefaultAdapter())
+                    .registerTypeAdapter(int.class, new IntegerDefaultAdapter())
+                    .registerTypeAdapter(Double.class, new DoubleDefaultAdapter())
+                    .registerTypeAdapter(double.class, new DoubleDefaultAdapter())
+                    .registerTypeAdapter(Long.class, new LongDefaultAdapter())
+                    .registerTypeAdapter(long.class, new LongDefaultAdapter())
+                    .registerTypeAdapter(String.class, new StringNullAdapter())
+                    .create();
+        }
+        return gson;
     }
 }

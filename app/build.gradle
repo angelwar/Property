@@ -35,7 +35,7 @@ android {
     }
     buildToolsVersion = '29.0.3'
 
-    packagingOptions {exclude 'META-INF/rxjava.properties'}
+    packagingOptions { exclude 'META-INF/rxjava.properties' }
 }
 
 dependencies {

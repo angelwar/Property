@@ -1,8 +1,13 @@
 package com.huanzong.property.activity
 
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import cn.pedant.SweetAlert.SweetAlertDialog
+import com.google.android.flexbox.FlexboxLayout
 import com.huanzong.property.R
 import com.huanzong.property.database.DataBase
 import com.huanzong.property.database.ZushouBean1
@@ -90,8 +95,53 @@ class HouseDetailActivity : XActivity(){
         if(data?.status==2){
             tv_zs.visibility = View.VISIBLE
             tv_zs.text = zs
+
+            bt_sale.visibility = View.GONE
+            bt_zu.visibility = View.GONE
         }
 
+        var layoutParams = FlexboxLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        layoutParams.setMargins(35, 10, 10, 20)
+        val zulist = ArrayList<String>()
+
+        if (data?.getDt() === 1) {
+            zulist.add("有电梯")
+        }
+
+        if (data?.getCw() === 1) {
+            zulist.add("有车位")
+        }
+
+
+        if (!TextUtils.isEmpty(data?.fwld)) {
+            zulist.add(data!!.fwld)
+        }
+
+        for (ss in zulist) {
+            val textView = TextView(this)
+            textView.text = ss
+            textView.setPadding(20, 10, 20, 10)
+            textView.setBackgroundResource(R.drawable.bg_edit)
+            textView.layoutParams = layoutParams
+            fltag.addView(textView)
+        }
+
+        if (!TextUtils.isEmpty(data?.getFwpz())) {
+            val fwpz = data?.getFwpz()?.split(",")
+
+            if (fwpz != null) {
+                for (ss in fwpz) {
+                    val textView = TextView(this)
+                    textView.setText(ss)
+                    textView.setPadding(20, 10, 20, 10)
+                    textView.setBackgroundResource(R.drawable.bg_edit)
+                    textView.layoutParams = layoutParams
+                    fltag_fwpz.addView(textView)
+                }
+            }
+
+        }
+        tv_xqjs.setText(data?.getXxjs())
     }
 
     private fun setBanner(data:ZushouBean1?) {
@@ -118,11 +168,9 @@ class HouseDetailActivity : XActivity(){
                         //  .setType(GPreviewBuilder.IndicatorType.Dot)
                         .start()//启动
             }
-
             //banner设置方法全部调用完毕时最后调用
             banner.start()
         }
-
     }
 
     override fun initData(savedInstanceState: Bundle?) {

@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.huanzong.property.R
 import com.huanzong.property.database.DataBase
-import com.huanzong.property.fragment.admin.UserData
-import com.huanzong.property.fragment.admin.UserDataBase
+import com.huanzong.property.fragment.admin.data.UserData
+import com.huanzong.property.fragment.admin.data.UserDataBase
 import com.huanzong.property.http.HttpServer
 import com.huanzong.property.util.PocketSwipeRefreshLayout
-import com.huanzong.property.util.SharedPreferencesUtil
 import com.huanzong.property.util.SpacesItemDecoration
 import com.youth.xframe.adapter.XRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_sale_list.*
@@ -91,12 +90,18 @@ class FragmentDealYuyue : Fragment(){
                                     return
                                 }
                                 lastpage = userList.last_page!!
+
+                                if (page ==1){
+                                    adapter?.setDataLists(null)
+                                }
+
                                 if(page<=lastpage){
                                     page++
                                 }
                                 if (adapter==null){
                                     adapter = SaleHouseAdapter(activity, rv!!,list,R.layout.item_house )
                                 }
+
                                 adapter?.addAll(userList.data)
                                 hideNullView()
                             }else{
@@ -122,5 +127,12 @@ class FragmentDealYuyue : Fragment(){
     fun hideNullView(){
         rv?.visibility = View.VISIBLE
         tv_null?.visibility = View.GONE
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        page = 1
+        lastpage = 1
     }
 }

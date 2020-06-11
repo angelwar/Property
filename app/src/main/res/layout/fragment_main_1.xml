@@ -18,6 +18,16 @@
             android:gravity="center"
             android:layout_centerInParent="true"
             android:textColor="@color/colorWhite"/>
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:padding="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="搜索"/>
     </RelativeLayout>
 
     <!--<androidx.swiperefreshlayout.widget.SwipeRefreshLayout

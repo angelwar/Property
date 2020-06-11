@@ -11,20 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.huanzong.property.R
 import com.huanzong.property.database.DataBase
-import com.huanzong.property.fragment.admin.UserData
-import com.huanzong.property.fragment.admin.UserDataBase
+import com.huanzong.property.fragment.admin.data.UserData
+import com.huanzong.property.fragment.admin.data.UserDataBase
 import com.huanzong.property.http.HttpServer
 import com.huanzong.property.util.PocketSwipeRefreshLayout
 import com.huanzong.property.util.SharedPreferencesUtil
 import com.huanzong.property.util.SpacesItemDecoration
 import com.youth.xframe.adapter.XRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_sale_list.*
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
-import kotlin.collections.HashMap
 
 class FragmentZushou1 : Fragment(){
 
@@ -101,6 +98,10 @@ class FragmentZushou1 : Fragment(){
                                     showNullView()
                                     return
                                 }
+                                if (page ==1){
+                                    adapter?.setDataLists(null)
+                                }
+
                                 lastpage = userList.last_page!!
                                 if(page<=lastpage){
                                     page++
@@ -133,5 +134,12 @@ class FragmentZushou1 : Fragment(){
     fun hideNullView(){
         rv?.visibility = View.VISIBLE
         tv_null?.visibility = View.GONE
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        page = 1
+        lastpage = 1
     }
 }
