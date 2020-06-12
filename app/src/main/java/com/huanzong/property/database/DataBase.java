@@ -2,6 +2,8 @@ package com.huanzong.property.database;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class DataBase<T> {
 
     private int code;
@@ -30,10 +32,11 @@ public class DataBase<T> {
     }
 
     public void setData(T data) {
-        if (data == null){
-            data = null;
+        if (data == null||data.equals("")){
+//            this.data = null;
+            return;
         }else {
-            data = data;
+            this.data = data;
         }
 
     }

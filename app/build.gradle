@@ -8,10 +8,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.huanzong.property"
-        minSdkVersion 24
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "hz1000"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         //极光推送
@@ -54,7 +54,7 @@ dependencies {
     implementation 'com.youth.xframe:xframe:1.1.2'
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
-    implementation 'com.google.code.gson:gson:2.8.5'
+//    implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.7.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.0.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
@@ -73,5 +73,7 @@ dependencies {
     implementation 'top.zibin:Luban:1.1.3'
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
     implementation 'com.contrarywind:Android-PickerView:4.1.8'
+
+    implementation 'com.alibaba:fastjson:1.1.70.android'
 
 }

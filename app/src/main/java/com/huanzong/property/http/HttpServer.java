@@ -3,13 +3,22 @@ package com.huanzong.property.http;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.internal.ConstructorConstructor;
+import com.google.gson.internal.Excluder;
+import com.google.gson.internal.bind.TypeAdapters;
 import com.huanzong.property.MyApplication;
 import com.huanzong.property.base.Global;
 import com.huanzong.property.util.NullOnEmptyConverterFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Authenticator;
@@ -22,6 +31,9 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.google.gson.internal.bind.TypeAdapters.INTEGER;
+import static com.google.gson.internal.bind.TypeAdapters.LONG;
 
 public class HttpServer {
 
@@ -76,21 +88,22 @@ public class HttpServer {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Global.BASE_API) //设置网络请求的Url地址
                 .client(client)
+                .addConverterFactory(new MyRetrofitFactory())
 //                .addConverterFactory(new NullOnEmptyConverterFactory()) //必须是要第一个//设置为空也能解析
-                .addConverterFactory(GsonConverterFactory.create(buildGson())) //设置数据解析器
+//                .addConverterFactory(GsonConverterFactory.create(buildGson())) //设置数据解析器
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         return retrofit.create(APIService.class);
     }
 
-    /**
+   /* *//**
      * 增加后台返回""和"null"的处理
      * 1.int=>0
      * 2.double=>0.00
      * 3.long=>0L
      *
      * @return
-     */
+     *//*
 
     private static Gson gson;
     public static Gson buildGson() {
@@ -106,5 +119,32 @@ public class HttpServer {
                     .create();
         }
         return gson;
-    }
+    }*/
+
+//    public static Gson buildGson() {
+//        //这里构造Gson，注册自定义的int和long的解析器
+//        Gson gson = new GsonBuilder().registerTypeAdapterFactory(TypeAdapters.newFactory(int.class, Integer.class, INTEGER))
+//                .registerTypeAdapterFactory(TypeAdapters.newFactory(long.class, Long.class, LONG))
+//                .create();
+//        //这里通过反射的方法把自定义的MyReflectiveTypeAdapterFactory替换进去
+//        try {
+//            Field field = gson.getClass().getDeclaredField("constructorConstructor");
+//            field.setAccessible(true);
+//            ConstructorConstructor constructorConstructor = (ConstructorConstructor) field.get(gson);
+//            Field factories = gson.getClass().getDeclaredField("factories");
+//            factories.setAccessible(true);
+//            List<TypeAdapterFactory> data = (List<TypeAdapterFactory>) factories.get(gson);
+//            List<TypeAdapterFactory> newData = new ArrayList<>(data);
+//            newData.remove(data.size() - 1);
+//            newData.add(new MyReflectiveTypeAdapterFactory(constructorConstructor, FieldNamingPolicy.IDENTITY, Excluder.DEFAULT));
+//            newData = Collections.unmodifiableList(newData);
+//            factories.set(gson, newData);
+//        } catch (NoSuchFieldException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//        return gson;
+//    }
+
 }

@@ -116,6 +116,7 @@ public interface APIService {
     @Multipart
     @POST("/api/admin/User/vister")
     Call<DataBase<UserDataBase<UserData<Visitor>>>> onVisiter(@PartMap HashMap<String,Integer> map);
+
     /**
      * 租售房屋管理
      * @param c_id 物业下属小区id 格式 [22,32]

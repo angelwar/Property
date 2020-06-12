@@ -14,6 +14,7 @@ import com.huanzong.property.database.DataBase
 import com.huanzong.property.fragment.firstpage.TongJiData
 import com.huanzong.property.fragment.firstpage.TongJiDataBase
 import com.huanzong.property.http.HttpServer
+import com.huanzong.property.util.SharedPreferencesUtil
 import com.youth.xframe.widget.XToast
 import kotlinx.android.synthetic.main.fragment_main_0.*
 import retrofit2.Call
@@ -32,12 +33,13 @@ class FirstPageFragment : Fragment(){
             override fun onResponse(call: Call<DataBase<TongJiDataBase>>, response: Response<DataBase<TongJiDataBase>>) {
                 sw_refresh?.isRefreshing = false
                 if (response.body()?.code==10001){
-                    val dialog = SweetAlertDialog(activity,SweetAlertDialog.ERROR_TYPE)
+                    val dialog = SweetAlertDialog(activity,SweetAlertDialog.NORMAL_TYPE)
                     dialog.contentText = "您的账号已在其他地方登录，请重新登录"
                     dialog.titleText = "重复登录"
                     dialog.confirmText = "确定"
                     dialog.cancelText = "取消"
                     dialog.setConfirmClickListener {
+                        SharedPreferencesUtil.addToken(activity,null)
                         activity?.startActivity(Intent(activity, LoginActivity::class.java))
                         activity?.finish()
                     }
